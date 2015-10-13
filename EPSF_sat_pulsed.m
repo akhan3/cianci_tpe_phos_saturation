@@ -6,51 +6,25 @@ clear all;
 numPowerPoints = 20;
 
 for kkk = [1,2,3,4]
-% for kkk = [1,2]
-% for kkk = 4
 
 %% Sweep power
 switch kkk
-    case 1
-        % pulsed phos 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-6; P = logspace(log10(.02e-3), log10(30e-3), numPowerPoints)'; 
-%         P = sort(unique([ P; 0.0013795 * logspace(log10(.1), log10(5), 10)' ]));
-%         P = [1:10]' * 1e-3;
-%         P = logspace(log10(.01e-3), log10(10e-3), 10)'; 
-%         P = [1e-3 2e-3];
-    case 2
-        % pulsed fluor 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(100e-3), numPowerPoints)'; 
-%         P = sort(unique([ P; 0.0089812 * logspace(log10(.1), log10(5), 10)' ]));
-    case 3
-        % CW phos 
+    case 1  % pulsed phos 
+        excitationType = 'GaussianPulse'; gamma = 1/1e-6; P = logspace(log10(.02e-3), log10(100e-3), numPowerPoints)'; 
+    case 2  % pulsed fluor 
+        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+    case 3  % CW phos 
         excitationType = 'CW'; gamma = 1/1e-6; P = logspace(log10(3e-3), log10(10), numPowerPoints)'; 
-%         P = sort(unique([ P; 0.37843 * logspace(log10(.1), log10(5), 10)' ]));
-%         P = [360e-3 300e-3];
-%         P = 100*logspace(log10(.1e-3), log10(10e-3), 10)'; 
-    case 4
-        % CW fluor 
+    case 4  % CW fluor 
         excitationType = 'CW'; gamma = 1/1e-9; P = logspace(log10(100e-3), log10(300), numPowerPoints)';  %% upto 300W
-%         P = sort(unique([ P; 10.982 * logspace(log10(.1), log10(5), 10)' ]));
     otherwise
         error('Invalid choice of kkk');
 end
  
-P = sort(P,'descend');
-
-% P = [55.6027, 84.743]'
-% P = 60
-% P = sort(unique([P; .01e-3]));
+% P = sort(P,'descend');
 
 
 
-%% Gaussian beam PSF
-w0 = .35e-6; % normalized to beam waist
-S_gaussian = (2/pi)./(w0.^2);
-Sr = S_gaussian;
-
-
-% N1_ss = zeros(size(P));
 
 
 %% Sanity check
@@ -161,7 +135,6 @@ for k = 1:length(PPsat)
 %     th2.BackgroundColor = 'w';
 end
 plot(PPsat, .25*ones(size(PPsat)), 'ob', 'markersize',5, 'markerfacecolor','b','linewidth',2)
-hold off
 
 set(gca,'XScale', 'log');
 set(gca,'YScale', 'log');
@@ -175,6 +148,12 @@ ylabel('Excited state population')
 % set(gca,'YTick', sort(unique([.25, .5, get(gca,'YTick')])) ); 
 % title(['{\tau} = ', num2str(1/gamma)])
 legend(legendStr, 'location','southeast')
+
+% lines at .5 and .25
+a1 = plot(get(gca,'xlim'),0.5*[1 1], 'r--');
+a2 = plot(get(gca,'xlim'),.25*[1 1], 'r--');
+uistack([a1 a2], 'bottom')
+hold off
 
 
 % beautifyPlot

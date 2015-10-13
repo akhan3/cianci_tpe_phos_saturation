@@ -1,4 +1,4 @@
-function [N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma, N1_0, excitationType, doPlotting)
+function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma, N1_0, excitationType, doPlotting)
 
     %% physical constants
     h = 6.63e-34; % J.s
@@ -37,6 +37,7 @@ function [N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma, N1_0
 %     end
     
 % % % % % %     fprintf('\t# %d negative values %s\n', sum(N1<0), repmat(['#'],[1,sum(N1<0)]))
+    t_ss = tCondensed(end);
     N1_ss = N1(t == tCondensed(end));
 
 
@@ -78,8 +79,9 @@ end
 
 %% solution of differential equation 
 function [N1,gp] = solDiffEq(N1_0, time,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitationType)
-%     ti = time(1);
+    SE = true;  % stimulated emission
     assert(time(1) == 0);
+    assert(SE == true);
 
     dN_0 = (1-2*N1_0);
     
@@ -91,31 +93,22 @@ function [N1,gp] = solDiffEq(N1_0, time,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitat
         case 'CW'
             beta = (P / (h*c/lambda)).^2;
             gp = ones(size(time));
-            W = @(t) tpa * Sr^2 * beta .* ones(size(t));
-            M = cumtrapz(time, 2*W(time)+gamma);
-            % M = time .* (2*W(time)+gamma);
-            dN = dN_0*exp(-M) +  gamma * exp(-M) .* cumtrapz( time, exp(M) );
-            Q = find(isnan(dN) | isinf(dN));
-            for iq = 1:length(Q)
-                k = Q(iq); 
-                dN(k) = dN_0*exp(-M(k)) + gamma * trapz(time(1:k), exp(M(1:k)-M(k)));
-            end
+            W = tpa * Sr^2 * beta .* ones(size(time));
+            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            M = time .* ((1+SE)*W+gamma); % analytical
         case 'GaussianPulse'
             m = sqrt(8 * log(2)) / alfa; 
-%             beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
+            % beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
             gp = GaussianPulse(time,t0,alfa);
             W0 = tpa * Sr^2 * (P/(h*c/lambda) * 1/(f*alfa)).^2  .* (m*alfa/(2*pi))^2;
-            W = @(t) W0 .* GaussianPulse(t,t0,alfa).^2;
-            M = cumtrapz(time, 2*W(time)+gamma);
-            dN = dN_0*exp(-M) +  gamma * exp(-M) .* cumtrapz( time, exp(M) );
-%             Ma = @(t)  gamma*t + 2*W0/m * ( erf(m*(t-t0)) + erf(m*t0) ) ;
-%             dN = dN_0*exp(-Ma(time)) +  gamma * exp(-Ma(time)) .* cumtrapz( time, exp(Ma(time)) );
+            W = W0 .* GaussianPulse(time,t0,alfa).^2;
+            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
         case 'RectPulse'
             beta = 1/2* 2*(P / (h*c/lambda) * 1/(f*alfa)).^2;
             gp = U(time-t0+alfa/2) - U(time-t0-alfa/2);
             W = @(t) tpa * Sr^2 * beta .* gp.^2;
-            M = cumtrapz(time, 2*W(time)+gamma);
-            dN = dN_0*exp(-M) +  gamma * exp(-M) .* cumtrapz( time, exp(M) );
+            M = cumtrapz(time, (1+SE)*W+gamma); % numerical
         case 'RectPulse_old'
             warning('Did you really choose rectangular pulse?')
             error('Did you really choose rectangular pulse? Comment this line')
@@ -126,17 +119,30 @@ function [N1,gp] = solDiffEq(N1_0, time,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitat
         error('Invalid choice of excitationType');
     end
 
-    N1 = 1/2*(1-dN);    % convert dN to N1
+    %% Numerical integration
+    dN = dN_0*exp(-M) +  exp(-M) .* cumtrapz( time, (gamma+(SE-1)*W).*exp(M) );
+
+    %% Correct for infinity
+    Q = find(isnan(dN) | isinf(dN));
+    if ~isempty(Q)
+        fprintf('\nCorrecting...\n') 
+        for iq = 1:length(Q)
+            k = Q(iq); 
+            dN(k) = dN_0*exp(-M(k)) + trapz(time(1:k), (gamma+(SE-1)*W(1:k)) .* exp(M(1:k)-M(k)));
+        end
+    end
     
-%     M = cumtrapz(time, 2*W(time)+gamma);
-%     N1 = N1_0*exp(-M) +  exp(-M) .* cumtrapz( time, W(time) .* exp(M) );
+    %% convert dN to N1
+    N1 = 1/2*(1-dN);    
 
+    %% Correct over and under-saturation
+    N1(N1<0) = 0;
+    N1(N1>0.5) = 0.5;
 
-
-    if isnan(N1) | isinf(N1) | N1<0
+%     if sum(isnan(N1) | isinf(N1) | N1<0 )
 %         fprintf('\n') 
 %         keyboard
-    end
+%     end
 
     
 end

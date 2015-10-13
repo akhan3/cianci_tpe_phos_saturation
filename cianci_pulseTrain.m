@@ -70,7 +70,7 @@ while (true)
                 N1_initial = N1(end,iz,ir,iC-1);
             end
 %             [~, t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, true);
-            [N1_ss_exc(iz,ir,iC), t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, excitationType, true);
+            [t_ss_exc(iz,ir,iC), N1_ss_exc(iz,ir,iC), t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, excitationType, true);
             t(:,iz,ir,iC) = t(:,iz,ir,iC) + (iC-1)/f; 
             if (~quietStatus)
                 fprintf('N1_ss_exc(%d,%d,%d) = %G\n',             ir,iz,iC, N1_ss_exc(iz,ir,iC)); 
@@ -82,7 +82,9 @@ while (true)
     if ~quietStatus && false
 %         cla
         ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
-                        squeeze(t(:)), squeeze(N1(:)),'-b'); grid on
+                        squeeze(t(:)), squeeze(N1(:)),'-b',...
+                        squeeze(t_ss_exc(end)), squeeze(N1_ss_exc(end)),'ok'); 
+        grid on
 %         set(ph, 'linewidth', 2);
 %         ylim([-.05 .65])
         str = sprintf('P = %.2f mW', P*1e3); title(str);
@@ -93,6 +95,12 @@ while (true)
     
 %     N1_ss = N1(end,z==0,r==0,iC);
     N1_ss = N1_ss_exc(z==0,r==0,iC);
+    
+    if sum(isnan(N1_ss ) | isinf(N1_ss ) | N1_ss < 0)
+        fprintf('\n'); 
+        keyboard;
+    end
+    
     if abs(1-N1_ss/N1_ss_prev) < 0.000136487992059  % 1e-3
         break
     elseif N1_ss == N1_ss_prev
@@ -125,10 +133,17 @@ N1_00 = squeeze(N1(:,z==0,r==0,:));
 %% Plotting
 % cla
 % ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
-ph = plot(  ...  %squeeze(t(:)), .5*squeeze(gp(:)),'-',...
-                squeeze(t(:)), squeeze(N1(:)),'-b'); grid on
+% ph = plot(  ...  %squeeze(t(:)), .5*squeeze(gp(:)),'-',...
+%                 squeeze(t(:)), squeeze(N1(:)),'-b'); grid on
+
+ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
+                squeeze(t(:)), squeeze(N1(:)),'-b',...
+                t_ss_exc(:,:,end) + (iC-1)/f, N1_ss_exc(:,:,end),'ob'); 
+set(ph(2), 'markerfacecolor', 'b');
+grid on
+
 % set(gca,'yscale','log')            
-% ylim([-.05 .65])
+ylim([-.05 .65])
 % set(ph, 'linewidth', 2);
 % set(gca, 'xtickLabel',    get(gca, 'xtick') / 1e-6);
 xlabel('Time (s)');
