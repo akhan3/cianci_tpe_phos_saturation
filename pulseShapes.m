@@ -21,9 +21,9 @@ yp = 1/alfa * (U(t-t0+alfa/2)-U(t-t0-alfa/2));
 
 YG = cumtrapz(t,yg);
 YS = cumtrapz(t,ys);
-% YSA = 1/(6*alfa) + 1/(24*alfa) * (sech((t-t0)/alfa)).^3 .* (3*sinh((t-t0)/alfa) + sinh(3*(t-t0)/alfa));
-YSA = 1/(6*alfa) * (tanh((t-t0)/alfa) + tanh(t0/alfa)) + ...
-      1/(12*alfa) * ((sech((t-t0)/alfa)).^2 .* tanh((t-t0)/alfa) + (sech(t0/alfa)).^2 .* tanh(t0/alfa));
+YSA = 1/(6*alfa) + 1/(24*alfa) * (sech((t-t0)/alfa)).^3 .* (3*sinh((t-t0)/alfa) + sinh(3*(t-t0)/alfa));
+% YSA = 1/(6*alfa) * (tanh((t-t0)/alfa) + tanh(t0/alfa)) + ...
+%       1/(12*alfa) * ((sech((t-t0)/alfa)).^2 .* tanh((t-t0)/alfa) + (sech(t0/alfa)).^2 .* tanh(t0/alfa));
 YP = cumtrapz(t,yp);
 
 

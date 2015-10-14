@@ -55,7 +55,7 @@ Sr = S_gaussian;
 %% Initial conditions
 iC = 1;
 N1_ss_prev = 0/0;
-
+timeConst = inf;
 
 %% Loop
 while (true)
@@ -100,24 +100,37 @@ while (true)
         fprintf('\n'); 
         keyboard;
     end
-    
-    if abs(1-N1_ss/N1_ss_prev) < 0.000136487992059  % 1e-3
-        break
-    elseif N1_ss == N1_ss_prev
-        break
-    elseif isnan(N1_ss)
-        fprintf('ERROR: Power too high or bad parameters\n')
-        break
-    end
-    N1_ss_prev = N1_ss;
 
+    %% check the asymptote
+    x(iC) = squeeze(t_ss_exc(:,:,iC)) + (iC-1)/f;
+    y(iC) = squeeze(N1_ss_exc(:,:,iC));
+    dydx = diff(y)./diff(x);
+    if iC > 2
+        if dydx(end) == 0 || dydx(end)/dydx(1) < exp(-5)
+            break
+        end
+    end
+
+%     if t(end) > 5*timeConst
+%         break
+%     end
+%     
+%     if iC > 10
+%         [Ass,timeConst] = fitRisingExp(x', y');
+%     end
+%     elseif isnan(N1_ss)
+%         fprintf('ERROR: Power too high or bad parameters\n')
+%         break
+%     end
+    
+    N1_ss_prev = N1_ss;
     iC = iC+1;
     
 %     if iC == 10
 %         break;
 %     end
     
-end
+end %% while
 
 % fprintf('\n');
 
@@ -172,3 +185,34 @@ yy = max(y)-y;
 % title([Ntime, N1_00])
 % keyboard 
 return
+
+end
+
+
+
+
+function [Ass,timeConst] = fitRisingExp(x, y)
+    [cfun,gof,fitAlgo] = fit(x,y, 'exp2');
+    A = cfun.a;
+    ta = -1/cfun.b;
+    B = cfun.c;
+    tb = -1/cfun.d;
+
+    if A > 0 && B < 0
+        Ass = A;
+        timeConst = tb;
+    elseif A < 0 && B > 0
+        Ass = B;
+        timeConst = ta;
+    else
+        error('Curve fitting failed');
+    end
+
+    % yfitted = Ass*(1-exp(x/timeConst));
+    % hold off;
+    % plot(cfun, x,y);
+    % hold on;
+    % plot(x,yfitted());
+    % hold off;
+
+end

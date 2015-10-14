@@ -1,5 +1,5 @@
 clear all;
-% clc;
+clc;
 % clf; drawnow
  
 
@@ -10,14 +10,11 @@ for kkk = [1,2,3,4]
 %% Sweep power
 switch kkk
     case 1  % pulsed phos 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-6; P = logspace(log10(.02e-3), log10(100e-3), numPowerPoints)'; 
-        excitationType = 'GaussianPulse-OLD'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+        excitationType = 'Sech2Pulse'; gamma = 1/1e-6; P = logspace(log10(.02e-3), log10(100e-3), numPowerPoints)'; 
     case 2  % pulsed fluor 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+        excitationType = 'Sech2Pulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
     case 3  % CW phos 
         excitationType = 'CW'; gamma = 1/1e-6; P = logspace(log10(3e-3), log10(10), numPowerPoints)'; 
-        excitationType = 'GaussianPulse-NEW'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
     case 4  % CW fluor 
         excitationType = 'CW'; gamma = 1/1e-9; P = logspace(log10(100e-3), log10(300), numPowerPoints)';  %% upto 300W
     otherwise

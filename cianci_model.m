@@ -61,12 +61,6 @@ end
 % Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% %% Gaussian pulsed function
-% function y = GaussianPulse(t,t0,alfa)
-%     m = sqrt(8 * log(2)) / alfa; 
-%     y = exp(-(1/2) * (m*(t-t0)).^2);
-% end
-
 
 %% Rectangular pulse function
 function y = U(x)
@@ -92,44 +86,34 @@ function [N1,pulse] = solDiffEq(N1_0, time,t0,f,fwhm,P,lambda,Sr,tpa,gamma, exci
     switch excitationType 
         case 'CW'
             pulse = ones(size(time));
-            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * ones(size(time));
-            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            phi = P/(h*c/lambda) * Sr * (pulse);
+            W = tpa * phi.^2;
+%             M = cumtrapz(time, (1+SE)*W+gamma); % numerical
             M = time .* ((1+SE)*W+gamma); % analytical
-        case 'GaussianPulse-OLD'
-            alfa = fwhm;% / (2*sqrt(log(2)));
-            m = sqrt(8 * log(2)) / alfa; 
-            % beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
-            pulse = exp(-(1/2) * (m*(time-t0)).^2);
-            W0 = tpa * Sr^2 * (P/(h*c/lambda) * 1/(f*alfa)).^2  .* (m*alfa/(2*pi))^2;
-            W = W0 * pulse.^2;
-            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
-            M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
-        case 'GaussianPulse-NEW'
-            alfa = fwhm / (2*sqrt(log(2)));
-            m = sqrt(8 * log(2)) / alfa; 
-            % beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
-            pulse = exp(-(1/2) * (m*(time-t0)).^2);
-            W0 = tpa * Sr^2 * (P/(h*c/lambda) * 1/(f*alfa)).^2  .* (m*alfa/(2*pi))^2;
-            W = W0 * pulse.^2;
-            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
-            M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
         case 'GaussianPulse'
             alfa = fwhm / (2*sqrt(log(2)));
             pulse = exp(-((time-t0)/alfa).^2);
-            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * 1/f^2 * (1/sqrt(pi) * 1/alfa * pulse).^2;
-            M = cumtrapz(time, (1+SE)*W+gamma); % numerical
-%             M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
+            phi = P/(h*c/lambda) * Sr * 1/f * (1/sqrt(pi) * 1/alfa * pulse);
+            W = tpa * phi.^2;
+%             M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            W0 = tpa * (P/(h*c/lambda) * Sr * 1/f).^2;
+            M = gamma*time + (1+SE)*W0 * (1/sqrt(8*pi) * 1/alfa) * ( erf(sqrt(2)*(time-t0)/alfa) + erf(sqrt(2)*t0/alfa) ) ; % analytical
         case 'Sech2Pulse'
             alfa = fwhm / (2*acosh(sqrt(2)));
             pulse = sech((time-t0)/alfa).^2;
-            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * 1/f^2 * (1/2 * 1/alfa * pulse).^2;
-            M = cumtrapz(time, (1+SE)*W+gamma); % numerical
-%                                                alfa/2 * tanh(((t - t0))/(alfa/2))
-%             M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
+            phi = P/(h*c/lambda) * Sr * 1/f * (1/2 * 1/alfa * pulse);
+            W = tpa * phi.^2;
+%             M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            W0 = tpa * (P/(h*c/lambda) * Sr * 1/f).^2;
+%             YSA = 1/(6*alfa) + 1/(24*alfa) * (sech((time-t0)/alfa)).^3 .* (3*sinh((time-t0)/alfa) + sinh(3*(time-t0)/alfa));
+            YSA = 1/(6*alfa) *                               (tanh((time-t0)/alfa) -                       tanh(-t0/alfa)) ...
+                + 1/(12*alfa) * ((sech((time-t0)/alfa)).^2 .* tanh((time-t0)/alfa) - (sech(t0/alfa)).^2 .* tanh(-t0/alfa));
+            M = gamma*time + (1+SE)*W0 * YSA; % analytical
         case 'RectPulse'
-            beta = 1/2* 2*(P / (h*c/lambda) * 1/(f*alfa)).^2;
+            alfa = fwhm;
             pulse = U(time-t0+alfa/2) - U(time-t0-alfa/2);
-            W = @(t) tpa * Sr^2 * beta .* pulse.^2;
+            phi = P/(h*c/lambda) * Sr * 1/f * (1/alfa * pulse);
+            W = tpa * phi.^2;
             M = cumtrapz(time, (1+SE)*W+gamma); % numerical
     otherwise
         error('Invalid choice of excitationType');
