@@ -3,27 +3,25 @@ clear all;
 % clf; drawnow
  
 
-numPowerPoints = 20;
+numPowerPoints = 10;
 
 for kkk = [1,2,3,4]
 
 %% Sweep power
 switch kkk
     case 1  % pulsed phos 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-6; P = logspace(log10(.02e-3), log10(100e-3), numPowerPoints)'; 
-        excitationType = 'GaussianPulse-OLD'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+        excitationType = 'GaussianPulse'; gamma = 1/.1e-6; P = logspace(log10(.02e-3), log10(100e-3), numPowerPoints)'; 
     case 2  % pulsed fluor 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
-        excitationType = 'GaussianPulse'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+        excitationType = 'GaussianPulse'; gamma = 1/1e-6; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
     case 3  % CW phos 
-        excitationType = 'CW'; gamma = 1/1e-6; P = logspace(log10(3e-3), log10(10), numPowerPoints)'; 
-        excitationType = 'GaussianPulse-NEW'; gamma = 1/1e-9; P = logspace(log10(.2e-3), log10(1000e-3), numPowerPoints)'; 
+        excitationType = 'GaussianPulse'; gamma = 1/10e-6; P = logspace(log10(3e-3), log10(10), numPowerPoints)'; 
     case 4  % CW fluor 
-        excitationType = 'CW'; gamma = 1/1e-9; P = logspace(log10(100e-3), log10(300), numPowerPoints)';  %% upto 300W
+        excitationType = 'GaussianPulse'; gamma = 1/100e-6; P = logspace(log10(100e-3), log10(300), numPowerPoints)';  %% upto 300W
     otherwise
         error('Invalid choice of kkk');
 end
- 
+
+P = logspace(log10(.1e-3), log10(100e-3), numPowerPoints)';
 % P = sort(P,'descend');
 
 
@@ -130,7 +128,7 @@ for k = 1:length(PPsat)
     else
         th = text(PPsat(k), .25, sprintf('%.1f W',PPsat(k)));
     end
-%     th.BackgroundColor = 'w';
+    th.BackgroundColor = 'w';
     th.Position = [th.Extent(1) th.Extent(2)*.5];
 %     th2 = text(PP{k}(1), .0001, legendStr{k});
 %     th2.Rotation = 59;

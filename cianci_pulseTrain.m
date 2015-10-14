@@ -21,7 +21,7 @@ tpa = 100 * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
 % P = 1E-3;
 lambda = 780e-9; % 800 nm
 f = 80e6;       % Hz
-alfa = 100e-15; % s
+fwhm = 100e-15; % s
 
 
 %% Gaussian beam PSF
@@ -70,7 +70,7 @@ while (true)
                 N1_initial = N1(end,iz,ir,iC-1);
             end
 %             [~, t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, true);
-            [t_ss_exc(iz,ir,iC), N1_ss_exc(iz,ir,iC), t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, excitationType, true);
+            [t_ss_exc(iz,ir,iC), N1_ss_exc(iz,ir,iC), t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, fwhm, Sr(iz,ir), tpa, gamma, N1_initial, excitationType, true);
             t(:,iz,ir,iC) = t(:,iz,ir,iC) + (iC-1)/f; 
             if (~quietStatus)
                 fprintf('N1_ss_exc(%d,%d,%d) = %G\n',             ir,iz,iC, N1_ss_exc(iz,ir,iC)); 
@@ -136,7 +136,7 @@ N1_00 = squeeze(N1(:,z==0,r==0,:));
 % ph = plot(  ...  %squeeze(t(:)), .5*squeeze(gp(:)),'-',...
 %                 squeeze(t(:)), squeeze(N1(:)),'-b'); grid on
 
-ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
+ph = plot(  ...%squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
                 squeeze(t(:)), squeeze(N1(:)),'-b',...
                 t_ss_exc(:,:,end) + (iC-1)/f, N1_ss_exc(:,:,end),'ob'); 
 set(ph(2), 'markerfacecolor', 'b');
@@ -151,8 +151,8 @@ str = sprintf('P = %.2f mW (%s)', P*1e3, excitationType); title(str);
 drawnow;
 % pause(.5)
 
-t0 = alfa*10;
-tCondensed = sort(unique([t0, [t0-alfa*3 : alfa/12 : t0+alfa*3]]));
+t0 = fwhm*10;
+tCondensed = sort(unique([t0, [t0-fwhm*3 : fwhm/12 : t0+fwhm*3]]));
 
 x = squeeze(t(1,:,:,:)) + tCondensed(end); 
 y = squeeze(N1_ss_exc(:));

@@ -1,4 +1,4 @@
-function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma, N1_0, excitationType, doPlotting)
+function [t_ss,N1_ss,t,N1,pulse] = cianci_model(P, lambda, f, fwhm, Sr, tpa, gamma, N1_0, excitationType, doPlotting)
 
     %% physical constants
     h = 6.63e-34; % J.s
@@ -6,10 +6,10 @@ function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma,
 
     %% simulation parameters
     timeInit = 0;
-    t0 = timeInit + alfa*10;
+    t0 = timeInit + fwhm*10;
     %     t0 = 0;
     %     timeInit = t0 - alfa*10;
-    timeFinal = t0 + 10*alfa;
+    timeFinal = t0 + 10*fwhm;
     timeFinal = 1/f;
 
 %     numPoints = 30;
@@ -19,7 +19,7 @@ function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma,
     dt = (1/f) / 1000;
 
     t = [timeInit:dt:timeFinal];
-    tCondensed = sort(unique([t0, [t0-alfa*3 : alfa/12 : t0+alfa*3]]));
+    tCondensed = sort(unique([t0, [t0-fwhm*3 : fwhm/12 : t0+fwhm*3]]));
     t = sort(unique([t, tCondensed]))';
 %     t = sort(unique([t, t0, [t0-alfa*3 : alfa/12 : t0+alfa*3]]));
     if ~doPlotting 
@@ -29,7 +29,7 @@ function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma,
 
 
     %% Solution
-    [N1,gp] = solDiffEq(N1_0, t,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitationType);
+    [N1,pulse] = solDiffEq(N1_0, t,t0,f,fwhm,P,lambda,Sr,tpa,gamma, excitationType);
 
 %     N1_neg = N1(N1<0);
 %     if ~isempty(N1_neg)
@@ -45,7 +45,7 @@ function [t_ss,N1_ss,t,N1,gp] = cianci_model(P, lambda, f, alfa, Sr, tpa, gamma,
     if doPlotting && true && false
 %         figure('windowStyle','docked')
 %         hold on
-        plot(t,gp, '-', t,N1, '-o');  
+        plot(t,pulse, '-', t,N1, '-o');  
 %         hold off
         grid on;
 %         ylim([0 1]);
@@ -61,11 +61,11 @@ end
 % Functions
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Gaussian pulsed function
-function y = GaussianPulse(t,t0,alfa)
-    m = sqrt(8 * log(2)) / alfa; 
-    y = exp(-(1/2) * (m*(t-t0)).^2);
-end
+% %% Gaussian pulsed function
+% function y = GaussianPulse(t,t0,alfa)
+%     m = sqrt(8 * log(2)) / alfa; 
+%     y = exp(-(1/2) * (m*(t-t0)).^2);
+% end
 
 
 %% Rectangular pulse function
@@ -78,7 +78,7 @@ end
 
 
 %% solution of differential equation 
-function [N1,gp] = solDiffEq(N1_0, time,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitationType)
+function [N1,pulse] = solDiffEq(N1_0, time,t0,f,fwhm,P,lambda,Sr,tpa,gamma, excitationType)
     SE = true;  % stimulated emission
     assert(time(1) == 0);
     assert(SE == true);
@@ -91,30 +91,46 @@ function [N1,gp] = solDiffEq(N1_0, time,t0,f,alfa,P,lambda,Sr,tpa,gamma, excitat
 
     switch excitationType 
         case 'CW'
-            beta = (P / (h*c/lambda)).^2;
-            gp = ones(size(time));
-            W = tpa * Sr^2 * beta .* ones(size(time));
+            pulse = ones(size(time));
+            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * ones(size(time));
             % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
             M = time .* ((1+SE)*W+gamma); % analytical
-        case 'GaussianPulse'
+        case 'GaussianPulse-OLD'
+            alfa = fwhm;% / (2*sqrt(log(2)));
             m = sqrt(8 * log(2)) / alfa; 
             % beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
-            gp = GaussianPulse(time,t0,alfa);
+            pulse = exp(-(1/2) * (m*(time-t0)).^2);
             W0 = tpa * Sr^2 * (P/(h*c/lambda) * 1/(f*alfa)).^2  .* (m*alfa/(2*pi))^2;
-            W = W0 .* GaussianPulse(time,t0,alfa).^2;
+            W = W0 * pulse.^2;
             % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
             M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
+        case 'GaussianPulse-NEW'
+            alfa = fwhm / (2*sqrt(log(2)));
+            m = sqrt(8 * log(2)) / alfa; 
+            % beta = 1/2*(P / (h*c/lambda) * 1/f).^2 .* m ./ (2 * sqrt(pi));
+            pulse = exp(-(1/2) * (m*(time-t0)).^2);
+            W0 = tpa * Sr^2 * (P/(h*c/lambda) * 1/(f*alfa)).^2  .* (m*alfa/(2*pi))^2;
+            W = W0 * pulse.^2;
+            % M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+            M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
+        case 'GaussianPulse'
+            alfa = fwhm / (2*sqrt(log(2)));
+            pulse = exp(-((time-t0)/alfa).^2);
+            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * 1/f^2 * (1/sqrt(pi) * 1/alfa * pulse).^2;
+            M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+%             M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
+        case 'Sech2Pulse'
+            alfa = fwhm / (2*acosh(sqrt(2)));
+            pulse = sech((time-t0)/alfa).^2;
+            W = tpa * Sr^2 * (P/(h*c/lambda))^2 * 1/f^2 * (1/2 * 1/alfa * pulse).^2;
+            M = cumtrapz(time, (1+SE)*W+gamma); % numerical
+%                                                alfa/2 * tanh(((t - t0))/(alfa/2))
+%             M = gamma*time + (1+SE)*W0/m * ( erf(m*(time-t0)) + erf(m*t0) ) ; % analytical
         case 'RectPulse'
             beta = 1/2* 2*(P / (h*c/lambda) * 1/(f*alfa)).^2;
-            gp = U(time-t0+alfa/2) - U(time-t0-alfa/2);
-            W = @(t) tpa * Sr^2 * beta .* gp.^2;
+            pulse = U(time-t0+alfa/2) - U(time-t0-alfa/2);
+            W = @(t) tpa * Sr^2 * beta .* pulse.^2;
             M = cumtrapz(time, (1+SE)*W+gamma); % numerical
-        case 'RectPulse_old'
-            warning('Did you really choose rectangular pulse?')
-            error('Did you really choose rectangular pulse? Comment this line')
-            beta = 2 * (P / (h*c/lambda) * 1/(f*alfa)).^2;
-            gp = U(time-t0+alfa/2) - U(time-t0-alfa/2);
-            intF = @(t)  exp( gamma * t + (tpa * Sr^2 * beta) * ( (t-t0+alfa/2) .* (U(t-t0+alfa/2) - U(t-t0-alfa/2) ) + alfa     .*       U(t-t0-alfa/2)   )   );
     otherwise
         error('Invalid choice of excitationType');
     end
