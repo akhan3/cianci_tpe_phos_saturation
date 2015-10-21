@@ -9,7 +9,7 @@ ax2 = subplot(122); hold on; myplot; axis square;
 drawnow;
 
 numTauPoints = 10;
-numPowerPoints = 20; % must be a mnimum of 5 for 'rat22' curve fitting model
+numPowerPoints = 11; % must be a mnimum of 5 for 'rat22' curve fitting model
 excitationType = 'Sech2Pulse'; 
 % excitationType = 'GaussianPulse'; 
 % excitationType = 'CW'; 
@@ -17,6 +17,7 @@ excitationType = 'Sech2Pulse';
 
 % P = logspace(log10(1e-6), log10(1), numPowerPoints)';
 TAU = logspace(log10(.1e-9), log10(10e-6), numTauPoints)';
+% TAU = TAU(6:7);
 % TAU = [[1:5:100]*1e-9, 1e-6, 10e-6, 100e-6]';
 
 % TAU = 100e-9;
@@ -34,6 +35,7 @@ for kkk = 1:length(TAU)
     fprintf('%d/%d: TAU = %s:\t',   kkk, length(TAU), tauStr);
 
     P = 1.26e-6*sqrt(gamma) * logspace(-2,2,numPowerPoints)';
+    P = 6.83e-7*sqrt(gamma) * logspace(-1,1,numPowerPoints)';
 
     %% Sanity check
     r = 0;    z = 0;
@@ -44,7 +46,7 @@ for kkk = 1:length(TAU)
 
 
     %% Pre-allocate variables
-    N1_ss = zeros(length(z), length(r), length(P));
+    N1_ss = zeros(size(P));
     % P = sort(P, 'descend');
     if (~quietStatus && false) || true
         figure('windowStyle','docked');
@@ -53,14 +55,13 @@ for kkk = 1:length(TAU)
 
     %% Loop
     for iP = 1:length(P)
-    %     disp( P(iP) )
+        fprintf('\n\t[%d] %G W\t',   iP,P(iP));
         for ir = 1:length(r)
             for iz = 1:length(z)
                 if ~quietStatus
                     subplot(121); hold on
                 end
-                N1_ss(iz,ir,iP) = cianci_pulseTrain(P(iP), gamma, excitationType, quietStatus);
-                fprintf('%d,',   iP);
+                N1_ss(iP) = cianci_pulseTrain(P(iP), gamma, excitationType, quietStatus);
 %                 fprintf('%d/%d: N1_ss(P=%g) = %f\n',   iP, length(P), P(iP), N1_ss(iz,ir,iP)); 
 
     % load xy
@@ -95,6 +96,10 @@ for kkk = 1:length(TAU)
     %% Find saturation threshold
     x1 = P;
     y1 = squeeze(N1_ss);
+    
+    x1 = x1(~isnan(y1));
+    y1 = y1(~isnan(y1));
+    
 %     if length(y) ~= length(unique(y))
 %         jj = min(find(diff(y)==0));
 %     else
@@ -110,11 +115,28 @@ for kkk = 1:length(TAU)
     [cfun,gof,fitAlgo] = fit(x1,y1, 'rat22',fop);
     Psat_fit = sqrt(cfun.q2);
 %     interp1(y1,x1,.25)
-    D = [P, squeeze(N1_ss)];
 
+%% Curve fitting another
+[xData, yData] = prepareCurveData( P, N1_ss );
+ft = fittype( '0.5/(1 + (x0/x)^m)', 'independent', 'x', 'dependent', 'y' );
+opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+opts.Display = 'Off';
+opts.Lower = [0 0];
+opts.StartPoint = [2 0.616044676146639];
+opts.Upper = [10 12];
+[fr, gf] = fit( xData, yData, ft, opts );
+
+Psat_fit_2 = fr.x0;
+
+    
+    fprintf('\n');
+    fprintf('\tPsat = %G W\n', Psat_fit);
+    fprintf('\t0.5/(1+(%f/P)^2), gof.rsquare=%f\n', Psat_fit, gof.rsquare);
+    fprintf('\t0.5/(1+(%f/P)^%f), gof.rsquare=%f\n', fr.x0, fr.m, gf.rsquare);
 
     %% make array
     PPsat_fit(kkk) = Psat_fit;
+    PPsat_fit_2(kkk) = Psat_fit_2;
     PP{kkk} = P;
     NN1_ss{kkk} = squeeze(N1_ss);
 
@@ -137,11 +159,14 @@ for kkk = 1:length(TAU)
     y = feval(cfun,x);
     ph2 = plot(x,y,'-');;
     delete(ph1)
-    ph1 = loglog(P, squeeze(N1_ss), 'o');
+%     ph1 = loglog(P, squeeze(N1_ss), 'o');
+    ph1 = loglog(x1, y1, 'o');
     col = get(ph1,'color');            
     set(ph1, 'markerfacecolor', col);
     set(ph2,'color',col);
     plot(Psat_fit, .25,'sk', 'markerfacecolor', 'k');
+    plot(fr.x0, .25,'sr', 'markerfacecolor', 'r');
+    ph2 = plot(x,feval(fr,x),'--');
     hold off;
 %     lh = legend({'$\frac{1/2}{1+\left({P_{sat}}/{P}\right)^2}$ fitting'});
 %     set(lh,'location','southeast');
@@ -161,7 +186,6 @@ for kkk = 1:length(TAU)
     myplot
     drawnow
 
-    fprintf('\n');
     
     PPP(:,kkk) = P;
     NN1(:,kkk) = N1_ss;
@@ -169,9 +193,11 @@ for kkk = 1:length(TAU)
 %         keyboard
     end
     
+%     return
+    
 end % for kkk
 
-
+% return
 
 PPsat_fit = PPsat_fit';
 % [TAU PPsat_fit]
@@ -190,9 +216,9 @@ K = 2.2456e36; % [photon/J/m^2] % K = Sr/(2*h*c/lambda*f*(fwhm/1.763));
 % fop = fitoptions('rat02', 'Lower',[-inf 0], ...
 %                           'Upper',[.5 0 0, 0 inf], ...
 %                           'StartPoint', [0 0 0, 0 median(x)^2]);
-% [cfun,gof,fitAlgo] = fit(TAU,PPsat_fit, 'rat02');
-% B = cfun.p1;
-% x0 = sqrt(cfun.q1);
+[cfun,gof,fitAlgo] = fit(TAU,PPsat_fit, 'rat02');
+B = cfun.p1;
+x0 = sqrt(cfun.q1);
 
 
 %% new figure    
@@ -203,9 +229,11 @@ cla; hold off;
 loglog(TAU,A./sqrt(TAU),'r--');
 hold on;
 ph = loglog(TAU,PPsat_fit,'ob');
+ph2 = loglog(TAU,PPsat_fit_2,'sr');
 % plot(TAU,feval(cfun,TAU),'-.g');
 hold off;
-set(ph(:),'MarkerFaceColor','b');
+set(ph,'MarkerFaceColor','w');
+set(ph2,'MarkerFaceColor','r');
 xlabel('Probe Lifetime (s)')
 ylabel('Saturation thereshold (W)')
 str = sprintf('${%g}/{\\sqrt{\\tau}}$', A);

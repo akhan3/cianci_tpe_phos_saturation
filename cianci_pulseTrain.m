@@ -53,8 +53,6 @@ Sr = S_gaussian;
 
 %% Initial conditions
 iC = 1;
-N1_ss_prev = 0/0;
-timeConst = inf;
 
 %% Loop
 while (true)
@@ -105,7 +103,9 @@ while (true)
     y(iC) = squeeze(N1_ss_exc(:,:,iC));
     if iC >= 2
         dydx = diff(y)./diff(x);
-        if dydx(end)/dydx(1) < exp(-5)
+        if dydx(end)/dydx(1) < exp(-5)  % == 0
+            fprintf('#%d (%G, %G)', iC, P, N1_ss);
+%             plot(x(1:end-1), 0.5*dydx./dydx(1), '-');
             break
         end
 %         if  N1(end) <= 0 
@@ -113,7 +113,7 @@ while (true)
 %             break
 %         end
         if dydx(1) == 0
-            fprintf('\tInitial derivative is zero! ');
+            fprintf('#%d [zero-slope] (%G, %G)', iC, P, N1_ss);
             break;
         end
     end
@@ -130,7 +130,6 @@ while (true)
 %         break
 %     end
     
-    N1_ss_prev = N1_ss;
     iC = iC+1;
     
 %     if iC == 10
@@ -142,7 +141,7 @@ end %% while
 
 
 if sum(isnan(N1_ss ) | isinf(N1_ss ) | N1_ss < 0)
-    fprintf('\tSS is NaN!!!!');
+    fprintf('\tSS is negative!!!!');
 %     N1_ss = 0;
     %         keyboard;
 end
@@ -166,10 +165,12 @@ ph = plot(  ... %squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
                 t_ss_exc(:,:,end) + (iC-1)/f, N1_ss_exc(:,:,end),'o');
 col = get(ph(end),'color');            
 set(ph(end), 'markerfacecolor', col);
+set(ph(1), 'color', col);
 grid on
 
 % set(gca,'yscale','log')            
 % ylim([-.05 .65])
+% ylim([.0 .5])
 % set(ph, 'linewidth', 2);
 % set(gca, 'xtickLabel',    get(gca, 'xtick') / 1e-6);
 xlabel('Time (s)');
@@ -179,8 +180,10 @@ xlabel('Time (s)');
     else
         tauStr = sprintf('%.1f us', tauNS/1e3);
     end
-str = sprintf('<P> = %.2f mW (%s) , %s', P*1e3, excitationType, tauStr); 
-title(str);
+str = sprintf('$P_{avg}$ = %.2f mW (%s) , %s', P*1e3, excitationType, tauStr); 
+title(str,'interpreter','latex');
+axis square 
+myplot
 drawnow;
 % pause(.5)
 
