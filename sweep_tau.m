@@ -8,8 +8,8 @@ ax1 = subplot(121); hold on; myplot; axis square;
 ax2 = subplot(122); hold on; myplot; axis square;
 drawnow;
 
-numTauPoints = 10;
-numPowerPoints = 11; % must be a mnimum of 5 for 'rat22' curve fitting model
+numTauPoints = 20;
+numPowerPoints = 12; % must be a mnimum of 5 for 'rat22' curve fitting model
 excitationType = 'Sech2Pulse'; 
 % excitationType = 'GaussianPulse'; 
 % excitationType = 'CW'; 
@@ -34,8 +34,7 @@ for kkk = 1:length(TAU)
     end
     fprintf('%d/%d: TAU = %s:\t',   kkk, length(TAU), tauStr);
 
-    P = 1.26e-6*sqrt(gamma) * logspace(-2,2,numPowerPoints)';
-    P = 6.83e-7*sqrt(gamma) * logspace(-1,1,numPowerPoints)';
+    P = 0.0094469 / sqrt(1 + 1/(gamma*2.11e-8)) * logspace(-1,1,numPowerPoints)';
 
     %% Sanity check
     r = 0;    z = 0;
@@ -200,46 +199,50 @@ end % for kkk
 % return
 
 PPsat_fit = PPsat_fit';
+PPsat_fit_2 = PPsat_fit_2';
 % [TAU PPsat_fit]
 
 %% Curve fitting log-log
-X = log(TAU);
-Y = log(PPsat_fit);
-fop = fitoptions('poly1', 'Lower',[-.5 -inf], 'Upper',[-.5 inf]);
-[cfun,gof,fitAlgo] = fit(X,Y, 'poly1',fop);
-A = exp(cfun.p2);
+% X = log(TAU);
+% Y = log(PPsat_fit);
+% fop = fitoptions('poly1', 'Lower',[-.5 -inf], 'Upper',[-.5 inf]);
+% [cfun,gof,fitAlgo] = fit(X,Y, 'poly1',fop);
+% A = exp(cfun.p2);
+
+
+%% Curve fitting another
+[xData, yData] = prepareCurveData(TAU, PPsat_fit_2);
+ft = fittype( 'B/(1 + x/x0)^m', 'independent', 'x', 'dependent', 'y' );
+opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+opts.Display = 'Off';
+opts.Lower = [0 .5 0];
+opts.StartPoint = [1 .5 median(TAU)];
+opts.Upper = [inf .5 inf];
+[fr, gf] = fit( xData, yData, ft, opts);
 
 K = 2.2456e36; % [photon/J/m^2] % K = Sr/(2*h*c/lambda*f*(fwhm/1.763));
 
 
-%% Curve fitting rat02
-% fop = fitoptions('rat02', 'Lower',[-inf 0], ...
-%                           'Upper',[.5 0 0, 0 inf], ...
-%                           'StartPoint', [0 0 0, 0 median(x)^2]);
-[cfun,gof,fitAlgo] = fit(TAU,PPsat_fit, 'rat02');
-B = cfun.p1;
-x0 = sqrt(cfun.q1);
-
-
 %% new figure    
 axes(ax1); hold off; cla;
+clf
 
 %% Plotting tau-Psat
 cla; hold off;
-loglog(TAU,A./sqrt(TAU),'r--');
+xx = logspace(log10(min(TAU)), log10(max(TAU)), 100)';
+loglog(xx, feval(fr,xx),'k--');
 hold on;
 ph = loglog(TAU,PPsat_fit,'ob');
 ph2 = loglog(TAU,PPsat_fit_2,'sr');
-% plot(TAU,feval(cfun,TAU),'-.g');
 hold off;
 set(ph,'MarkerFaceColor','w');
-set(ph2,'MarkerFaceColor','r');
+set(ph2,'MarkerFaceColor','w');
 xlabel('Probe Lifetime (s)')
 ylabel('Saturation thereshold (W)')
-str = sprintf('${%g}/{\\sqrt{\\tau}}$', A);
-lh = legend({str,'Data'});
-set(lh,'Interpreter','latex');
-axis square
+str = sprintf('$\\frac{%G}{\\sqrt{1+\\tau/%G}}$', fr.B, fr.x0);
+lh = legend({str});
+set(lh,'Interpreter','latex','location','southwest','fontsize',18,'box','off');
+% axis square
 
 myplot
 

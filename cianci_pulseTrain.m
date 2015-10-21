@@ -170,7 +170,7 @@ grid on
 
 % set(gca,'yscale','log')            
 % ylim([-.05 .65])
-% ylim([.0 .5])
+ylim([.0 .5])
 % set(ph, 'linewidth', 2);
 % set(gca, 'xtickLabel',    get(gca, 'xtick') / 1e-6);
 xlabel('Time (s)');

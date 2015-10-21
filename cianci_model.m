@@ -12,7 +12,7 @@ function [t_ss,N1_ss,t,N1,pulse] = cianci_model(P, lambda, f, fwhm, Sr, tpa, gam
 
     t0 = 0 + fwhm*10;
     timeFinal = 1/f;
-    dt1 = (1/f) / 100;
+    dt1 = (1/f) / 10;
     dt2 = (1/gamma) / 10;
     dt = min([dt1, dt2*inf]);
     t = sort(unique([[0:dt:timeFinal], timeFinal]));
