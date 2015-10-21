@@ -18,7 +18,6 @@ tpa = 100 * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
 % gamma = 1 / 1e-6;
 
 %% Excitation source
-% P = 1E-3;
 lambda = 780e-9; % 800 nm
 f = 80e6;       % Hz
 fwhm = 100e-15; % s
@@ -59,8 +58,8 @@ timeConst = inf;
 
 %% Loop
 while (true)
-    fprintf(1, repmat('\b',1,charCount)); % delete line before
-    charCount = fprintf('\t iC = %d', iC); 
+%     fprintf(1, repmat('\b',1,charCount)); % delete line before
+%     charCount = fprintf('\t iC=%d', iC); 
 
     for ir = 1:length(r)
         for iz = 1:length(z)
@@ -72,7 +71,7 @@ while (true)
 %             [~, t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, alfa, Sr(iz,ir), tpa, gamma, N1_initial, true);
             [t_ss_exc(iz,ir,iC), N1_ss_exc(iz,ir,iC), t(:,iz,ir,iC), N1(:,iz,ir,iC), gp(:,iC)] = cianci_model(P, lambda, f, fwhm, Sr(iz,ir), tpa, gamma, N1_initial, excitationType, true);
             t(:,iz,ir,iC) = t(:,iz,ir,iC) + (iC-1)/f; 
-            if (~quietStatus)
+            if (~quietStatus && false)
                 fprintf('N1_ss_exc(%d,%d,%d) = %G\n',             ir,iz,iC, N1_ss_exc(iz,ir,iC)); 
     %             fprintf('N1   (%d,%d,%d,%d) = %G\n',   size(t,1),ir,iz,iC, N1(end,iz,ir,iC)); 
             end
@@ -81,9 +80,10 @@ while (true)
     
     if ~quietStatus && false
 %         cla
-        ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
-                        squeeze(t(:)), squeeze(N1(:)),'-b',...
-                        squeeze(t_ss_exc(end)), squeeze(N1_ss_exc(end)),'ok'); 
+        ph = plot(  squeeze(t(:)), .6*squeeze(gp(:)),'o-r',...
+                        squeeze(t(:)), squeeze(N1(:)),'o-b',...
+                        squeeze(t_ss_exc(end)) + (iC-1)/f, squeeze(N1_ss_exc(end)),'sg'); 
+%         set(gca,'xscale', 'log');
         grid on
 %         set(ph, 'linewidth', 2);
 %         ylim([-.05 .65])
@@ -92,29 +92,36 @@ while (true)
         drawnow;
 %         keyboard
     end
-    
-%     N1_ss = N1(end,z==0,r==0,iC);
+
     N1_ss = N1_ss_exc(z==0,r==0,iC);
-    
     if sum(isnan(N1_ss ) | isinf(N1_ss ) | N1_ss < 0)
-        fprintf('\n'); 
-        keyboard;
+        fprintf('\tSS_exc value is negative!!!!');
+%         keyboard;
     end
+
 
     %% check the asymptote
     x(iC) = squeeze(t_ss_exc(:,:,iC)) + (iC-1)/f;
     y(iC) = squeeze(N1_ss_exc(:,:,iC));
-    dydx = diff(y)./diff(x);
-    if iC > 2
-        if dydx(end) == 0 || dydx(end)/dydx(1) < exp(-5)
+    if iC >= 2
+        dydx = diff(y)./diff(x);
+        if dydx(end)/dydx(1) < exp(-5)
             break
+        end
+%         if  N1(end) <= 0 
+%             fprintf('\tDecay asymptote goes negative! ');
+%             break
+%         end
+        if dydx(1) == 0
+            fprintf('\tInitial derivative is zero! ');
+            break;
         end
     end
 
-%     if t(end) > 5*timeConst
+%     if abs(1-N1_ss/N1_ss_prev) < 0.000136487992059  % 1e-3
 %         break
 %     end
-%     
+
 %     if iC > 10
 %         [Ass,timeConst] = fitRisingExp(x', y');
 %     end
@@ -132,16 +139,21 @@ while (true)
     
 end %% while
 
+
+
+if sum(isnan(N1_ss ) | isinf(N1_ss ) | N1_ss < 0)
+    fprintf('\tSS is NaN!!!!');
+%     N1_ss = 0;
+    %         keyboard;
+end
+
 % fprintf('\n');
 
 fprintf(1, repmat('\b',1,charCount)); % delete line before
 %     charCount = fprintf('\tiC = %d', iC);
 
-% fprintf('%d\n', iC);
-% [N1_ss_prev, N1_ss, abs(1-N1_ss/N1_ss_prev),   abs(1-N1_ss/N1_ss_prev) < 0.000136487992059]
-N1_00 = squeeze(N1(:,z==0,r==0,:));
+% return
 
-% toc;
 
 %% Plotting
 % cla
@@ -149,18 +161,26 @@ N1_00 = squeeze(N1(:,z==0,r==0,:));
 % ph = plot(  ...  %squeeze(t(:)), .5*squeeze(gp(:)),'-',...
 %                 squeeze(t(:)), squeeze(N1(:)),'-b'); grid on
 
-ph = plot(  ...%squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
+ph = plot(  ... %squeeze(t(:)), .6*squeeze(gp(:)),'-r',...
                 squeeze(t(:)), squeeze(N1(:)),'-b',...
-                t_ss_exc(:,:,end) + (iC-1)/f, N1_ss_exc(:,:,end),'ob'); 
-set(ph(2), 'markerfacecolor', 'b');
+                t_ss_exc(:,:,end) + (iC-1)/f, N1_ss_exc(:,:,end),'o');
+col = get(ph(end),'color');            
+set(ph(end), 'markerfacecolor', col);
 grid on
 
 % set(gca,'yscale','log')            
-ylim([-.05 .65])
+% ylim([-.05 .65])
 % set(ph, 'linewidth', 2);
 % set(gca, 'xtickLabel',    get(gca, 'xtick') / 1e-6);
 xlabel('Time (s)');
-str = sprintf('P = %.2f mW (%s)', P*1e3, excitationType); title(str);
+    tauNS = (1/gamma) / 1e-9;
+    if tauNS < 100
+        tauStr = sprintf('%.1f ns', tauNS);
+    else
+        tauStr = sprintf('%.1f us', tauNS/1e3);
+    end
+str = sprintf('<P> = %.2f mW (%s) , %s', P*1e3, excitationType, tauStr); 
+title(str);
 drawnow;
 % pause(.5)
 
@@ -175,6 +195,27 @@ timeConst = 1 / (2*W + gamma);
 % save('xy',   'x','y');
 
 return   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% fprintf('%d\n', iC);
+% [N1_ss_prev, N1_ss, abs(1-N1_ss/N1_ss_prev),   abs(1-N1_ss/N1_ss_prev) < 0.000136487992059]
+N1_00 = squeeze(N1(:,z==0,r==0,:));
+
+% toc;
+
 
 
 
