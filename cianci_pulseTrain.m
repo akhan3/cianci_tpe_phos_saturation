@@ -104,7 +104,7 @@ while (true)
     if iC >= 2
         dydx = diff(y)./diff(x);
         if dydx(end)/dydx(1) < exp(-5)  % == 0
-            fprintf('#%d (%G, %G)', iC, P, N1_ss);
+            fprintf('#%5d# [%.1f] (P = %.1e W, N1ss = %.5f)', iC, log(dydx(end)/dydx(1)), P, N1_ss);
 %             plot(x(1:end-1), 0.5*dydx./dydx(1), '-');
             break
         end
@@ -113,7 +113,7 @@ while (true)
 %             break
 %         end
         if dydx(1) == 0
-            fprintf('#%d [zero-slope] (%G, %G)', iC, P, N1_ss);
+            fprintf('#%5d# [ZERO] (P = %.1e W, N1ss = %.2f)', iC, P, N1_ss);
             break;
         end
     end
