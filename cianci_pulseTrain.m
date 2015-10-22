@@ -1,4 +1,4 @@
-function [N1_ss] = cianci_pulseTrain(P, gamma, excitationType, quietStatus)
+function [N1_ss] = cianci_pulseTrain(P, gamma, tpa, excitationType, quietStatus)
 
 % clear
 % clc
@@ -14,7 +14,7 @@ h = 6.63e-34; % J.s
 c = 3e8; % m/s
 
 %% Fluorophore
-tpa = 100 * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
+% tpa = 100 * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
 % gamma = 1 / 1e-6;
 
 %% Excitation source
@@ -104,7 +104,8 @@ while (true)
     if iC >= 2
         dydx = diff(y)./diff(x);
         if dydx(end)/dydx(1) < exp(-5)  % == 0
-            fprintf('#%5d# [%.1f] (P = %.1e W, N1ss = %.5f)', iC, log(dydx(end)/dydx(1)), P, N1_ss);
+%             fprintf('#%5d# [%.1f] (P = %.1e W, N1ss = %.5f)', iC, log(dydx(end)/dydx(1)), P, N1_ss);
+            fprintf('#%5d# [%.1f] (P = %s, N1ss = %.5f)', iC, log(dydx(end)/dydx(1)), PStr(P), N1_ss);
 %             plot(x(1:end-1), 0.5*dydx./dydx(1), '-');
             break
         end
@@ -113,7 +114,8 @@ while (true)
 %             break
 %         end
         if dydx(1) == 0
-            fprintf('#%5d# [ZERO] (P = %.1e W, N1ss = %.2f)', iC, P, N1_ss);
+%             fprintf('#%5d# [ZERO] (P = %.1e W, N1ss = %.2f)', iC, P, N1_ss);
+            fprintf('#%5d# [ZERO] (P = %s, N1ss = %.2f)', iC, PStr(P), N1_ss);
             break;
         end
     end
@@ -174,15 +176,9 @@ ylim([.0 .5])
 % set(ph, 'linewidth', 2);
 % set(gca, 'xtickLabel',    get(gca, 'xtick') / 1e-6);
 xlabel('Time (s)');
-    tauNS = (1/gamma) / 1e-9;
-    if tauNS < 100
-        tauStr = sprintf('%.1f ns', tauNS);
-    else
-        tauStr = sprintf('%.1f us', tauNS/1e3);
-    end
-str = sprintf('$P_{avg}$ = %.2f mW (%s) , %s', P*1e3, excitationType, tauStr); 
-title(str,'interpreter','latex');
-axis square 
+str = sprintf('%G GM, %s, %s', tpa/1e-58, tauStr(1/gamma), PStr(P)); 
+title(str);
+% axis square 
 myplot
 drawnow;
 % pause(.5)
@@ -197,66 +193,3 @@ timeConst = 1 / (2*W + gamma);
 % [P   W    (2*W + gamma)  5*timeConst    t(end,end,end,end)    N1(end,end,end,end)      W/(2*W+gamma)    N1_ss_exc(1)]'
 % save('xy',   'x','y');
 
-return   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% fprintf('%d\n', iC);
-% [N1_ss_prev, N1_ss, abs(1-N1_ss/N1_ss_prev),   abs(1-N1_ss/N1_ss_prev) < 0.000136487992059]
-N1_00 = squeeze(N1(:,z==0,r==0,:));
-
-% toc;
-
-
-
-
-x = squeeze(t(:));
-y = squeeze(N1(:));
-yy = max(y)-y;
-
-% title([Ntime, N1_00])
-% keyboard 
-return
-
-end
-
-
-
-
-function [Ass,timeConst] = fitRisingExp(x, y)
-    [cfun,gof,fitAlgo] = fit(x,y, 'exp2');
-    A = cfun.a;
-    ta = -1/cfun.b;
-    B = cfun.c;
-    tb = -1/cfun.d;
-
-    if A > 0 && B < 0
-        Ass = A;
-        timeConst = tb;
-    elseif A < 0 && B > 0
-        Ass = B;
-        timeConst = ta;
-    else
-        error('Curve fitting failed');
-    end
-
-    % yfitted = Ass*(1-exp(x/timeConst));
-    % hold off;
-    % plot(cfun, x,y);
-    % hold on;
-    % plot(x,yfitted());
-    % hold off;
-
-end
