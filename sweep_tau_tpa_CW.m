@@ -1,4 +1,7 @@
-TPA_GM = [1 5 10 15 30 50 100 150 200]';
+clc
+clear
+
+TPA_GM = [1 3 10 30 100 200]';
 
 for jj = 1:length(TPA_GM)
     
@@ -14,9 +17,9 @@ drawnow;
 
 numTauPoints = 6;
 numPowerPoints = 8; % must be a mnimum of 5 for 'rat22' curve fitting model
-excitationType = 'Sech2Pulse'; 
+% excitationType = 'Sech2Pulse'; 
 % excitationType = 'GaussianPulse'; 
-% excitationType = 'CW'; 
+excitationType = 'CW'; 
 
 %% Fluorophore
 tpaGM = TPA_GM(jj);
@@ -30,7 +33,8 @@ TAU = logspace(log10(.1e-6), log10(100e-6), numTauPoints)';
 % TAU = [TAU; logspace(log10(10e-9), log10(10e-6), 5)'];
 % TAU = [TAU; 50e-6; 100e-6; 500e-6; 1000e-6];
 
-TAU = 1e-6 * [.001, .01, .1, 1, 4, 10, 60, 100]' ;
+% TAU = 1e-6 * [.001, .01, .1, 1, 4, 10, 60, 100]' ;
+TAU = 1e-6 * [.01, .1, 1, 10, 100]' ;
 
 
 TAU = sort(unique(TAU));
@@ -41,8 +45,7 @@ for kkk = 1:length(TAU)
     gamma = 1./TAU(kkk);
     fprintf('%d/%d: TAU = %s:\t',   kkk, length(TAU), tauStr(TAU(kkk)));
 
-    % P = 1.35e-6/sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
-    P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
+    P = 3.5336e-32 / sqrt(tpa) / sqrt(1/gamma) * logspace(-1,1,numPowerPoints)';
 
     %% Sanity check
     r = 0;    z = 0;
@@ -274,8 +277,8 @@ myplot
 % close(1:10);
 
 %% printing data for saving
-folderName = 'FILES';
-fileName = sprintf('Data %g GM %s - %s', tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
+folderName = 'FILES_CW';
+fileName = sprintf('Data CW %g GM %s - %s', tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
 fh = fopen(fullfile(folderName, [fileName,'.txt']), 'w');
 
 CW_fprintf(fh, '\n');

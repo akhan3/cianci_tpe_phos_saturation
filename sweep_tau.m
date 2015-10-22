@@ -1,6 +1,6 @@
-% clear all;
-% close all;
-% clc;
+clear all;
+close all;
+clc;
 % clf; drawnow
  
 figure('windowStyle','docked');
@@ -10,9 +10,9 @@ drawnow;
 
 numTauPoints = 6;
 numPowerPoints = 8; % must be a mnimum of 5 for 'rat22' curve fitting model
-excitationType = 'Sech2Pulse'; 
+% excitationType = 'Sech2Pulse'; 
 % excitationType = 'GaussianPulse'; 
-% excitationType = 'CW'; 
+excitationType = 'CW'; 
 
 %% Fluorophore
 tpa = 1 * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
@@ -41,7 +41,7 @@ for kkk = 1:length(TAU)
     fprintf('%d/%d: TAU = %s:\t',   kkk, length(TAU), tauStr);
 
     % P = 1.35e-6/sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
-    P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
+    P = 1e2 * (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
 
     %% Sanity check
     r = 0;    z = 0;
