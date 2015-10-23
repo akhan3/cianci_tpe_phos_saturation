@@ -1,0 +1,786 @@
+tic; sweep_tau_tpa_Gaussian; toc
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 9.22841 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 17.8173 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 34.3998 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 66.4155 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 128.228 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 247.57 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 477.983 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 922.841 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(8.4e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 7.74278 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 14.949 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 28.8619 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 55.7237 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 107.586 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 207.715 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 401.035 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 774.278 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(7.5e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 3.89064 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 7.51164 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 14.5027 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 28.0003 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 54.0602 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 104.374 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 201.514 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 389.064 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.5e-02/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 1.33644 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 2.58026 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 4.98169 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 9.61815 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 18.5697 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 35.8525 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 69.2204 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 133.644 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(1.2e-02/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 0.426473 mW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.82339 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 1.58972 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 3.06926 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 5.92582 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 11.441 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 22.089 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 42.6473 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.8e-03/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 0.134986 mW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 0.260618 mW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 0.503174 mW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.971477 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 1.87563 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 3.62127 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 6.99158 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 13.4986 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.2e-03/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+A/sqrt(T0+T) = 1.27698e-05/sqrt(2.12073e-08 + T), gof.rsquare=0.998408
+fileName =
+Data Gaussian 1 GM 1 ns - 100 us
+
+##################################################################
+	TPA	1	[GM]	1e-58	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0842207	0.98582		1 ns
+	1e-08	0.0747443	0.988664		10 ns
+	1e-07	0.0352788	0.99837		0.1 us
+	1e-06	0.0120301	0.999975		1 us
+	1e-05	0.00384167	0.999954		10 us
+	0.0001	0.00121614	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	1.27698e-05	2.12073e-08	0.998408	1.63069e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 4.12707 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 7.96813 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 15.384 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 29.7019 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 57.3455 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 110.717 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 213.761 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 412.707 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.8e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 3.46268 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 6.68538 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 12.9075 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 24.9204 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 48.1137 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 92.8931 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 179.348 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 346.268 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.3e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 1.73995 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 3.35931 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 6.48581 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 12.5221 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 24.1765 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 46.6774 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 90.12 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 173.995 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.6e-02/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.597673 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 1.15393 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 2.22788 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 4.30137 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 8.30464 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 16.0337 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 30.9563 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 59.7673 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(5.4e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 0.190724 mW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.368231 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.710943 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 1.37262 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 2.65011 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 5.11656 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 9.87852 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 19.0724 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.7e-03/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 60.3677 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 0.116552 mW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 0.225026 mW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.434458 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.838806 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 1.61948 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 3.12673 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 6.03677 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(5.4e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in coefficients less than tolerance (TolX).
+A/sqrt(T0+T) = 5.70892e-06/sqrt(2.12006e-08 + T), gof.rsquare=0.998408
+fileName =
+Data Gaussian 5 GM 1 ns - 100 us
+
+##################################################################
+	TPA	5	[GM]	5e-58	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0376646	0.98582		1 ns
+	1e-08	0.0334267	0.988664		10 ns
+	1e-07	0.0157772	0.99837		0.1 us
+	1e-06	0.00538001	0.999975		1 us
+	1e-05	0.00171805	0.999954		10 us
+	0.0001	0.000543873	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	5.70892e-06	2.12006e-08	0.998408	1.62959e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 2.91828 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 5.63432 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 10.8782 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 21.0024 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 40.5494 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 78.2886 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 151.152 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 291.828 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.7e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 2.44848 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 4.72728 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 9.12695 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 17.6214 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 34.0216 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 65.6853 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 126.819 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 244.848 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.4e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 1.23033 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 2.37539 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 4.58616 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 8.85449 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 17.0953 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 33.0059 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 63.7245 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 123.033 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.1e-02/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.422619 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.815949 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 1.57535 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 3.04153 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 5.87227 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 11.3376 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 21.8894 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 42.2619 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(3.8e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 0.134863 mW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.260379 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.502713 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.970586 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 1.87391 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 3.61795 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 6.98517 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 13.4863 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.2e-03/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 42.6864 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 82.4145 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 0.159118 mW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.307208 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.593126 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 1.14515 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 2.21093 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 4.26864 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.8e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in coefficients less than tolerance (TolX).
+A/sqrt(T0+T) = 4.04699e-06/sqrt(2.13193e-08 + T), gof.rsquare=0.998409
+fileName =
+Data Gaussian 10 GM 1 ns - 100 us
+
+##################################################################
+	TPA	10	[GM]	1e-57	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0266329	0.98582		1 ns
+	1e-08	0.0236362	0.988664		10 ns
+	1e-07	0.0111561	0.99837		0.1 us
+	1e-06	0.00380424	0.999975		1 us
+	1e-05	0.00121484	0.999954		10 us
+	0.0001	0.000384576	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	4.04699e-06	2.13193e-08	0.998409	1.63781e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 2.38277 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 4.6004 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 8.88198 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 17.1484 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 33.1084 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 63.9223 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 123.415 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 238.277 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.2e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 1.99918 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 3.85981 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 7.45212 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 14.3878 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 27.7785 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 53.6318 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 103.547 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 199.918 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.9e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 1.00456 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 1.9395 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 3.74458 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 7.22966 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 13.9583 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 26.9492 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 52.0308 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 100.456 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(9.1e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.345067 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.666219 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 1.28627 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 2.48339 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 4.79468 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 9.25709 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 17.8726 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 34.5067 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(3.1e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 0.110115 mW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.212598 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.410463 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.79248 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 1.53004 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 2.95404 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 5.70337 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 11.0115 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(9.9e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 34.8533 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 67.2912 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 0.129919 mW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.250834 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.484285 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.935008 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 1.80522 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 3.48533 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.1e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in coefficients less than tolerance (TolX).
+A/sqrt(T0+T) = 3.29116e-06/sqrt(2.1137e-08 + T), gof.rsquare=0.998407
+fileName =
+Data Gaussian 15 GM 1 ns - 100 us
+
+##################################################################
+	TPA	15	[GM]	1.5e-57	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0217457	0.98582		1 ns
+	1e-08	0.0192989	0.988664		10 ns
+	1e-07	0.00910895	0.99837		0.1 us
+	1e-06	0.00310615	0.999975		1 us
+	1e-05	0.000991914	0.999954		10 us
+	0.0001	0.000314005	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	3.29116e-06	2.1137e-08	0.998407	1.62476e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 1.68487 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 3.25297 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 6.28051 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 12.1258 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 23.4112 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 45.1999 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 87.2674 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 168.487 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.5e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 1.41363 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 2.7293 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 5.26945 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 10.1737 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 19.6424 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 37.9234 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 73.2187 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 141.363 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.4e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 0.71033 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 1.37143 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 2.64782 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 5.11214 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 9.87 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 19.056 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 36.7913 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 71.033 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(6.4e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.243999 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.471088 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 0.909529 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 1.75603 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 3.39035 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 6.54575 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 12.6379 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 24.3999 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(2.2e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 77.8629 uW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.15033 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.290241 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.560368 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 1.0819 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 2.08882 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 4.03289 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 7.78629 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(7.0e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 24.645 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 47.582 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 91.8666 uW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.177367 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.342441 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.66115 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 1.27648 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 2.4645 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.2e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in coefficients less than tolerance (TolX).
+A/sqrt(T0+T) = 2.32313e-06/sqrt(2.10305e-08 + T), gof.rsquare=0.998403
+fileName =
+Data Gaussian 30 GM 1 ns - 100 us
+
+##################################################################
+	TPA	30	[GM]	3e-57	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0153765	0.98582		1 ns
+	1e-08	0.0136464	0.988664		10 ns
+	1e-07	0.006441	0.99837		0.1 us
+	1e-06	0.00219638	0.999975		1 us
+	1e-05	0.000701389	0.999954		10 us
+	0.0001	0.000222035	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	2.32313e-06	2.10305e-08	0.998403	1.61908e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 1.30509 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 2.51974 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 4.86486 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 9.39258 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 18.1342 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 35.0117 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 67.597 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 130.509 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.2e-02/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 1.09499 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 2.1141 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 4.08169 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 7.88052 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 15.2149 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 29.3754 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 56.715 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 109.499 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.1e-02/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 0.550219 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 1.06231 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 2.05099 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 3.95985 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 7.64527 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 14.7607 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 28.4984 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 55.0219 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(5.0e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.189001 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.364903 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 0.704518 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 1.36021 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 2.62616 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 5.07032 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 9.78925 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 18.9001 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(1.7e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 60.3123 uW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 0.116445 mW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.22482 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.434059 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 0.838037 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 1.618 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 3.12386 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 6.03123 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(5.4e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 19.0899 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 36.8569 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 71.1595 uW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 0.137388 mW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.265254 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.512125 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 0.988758 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 1.90899 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.7e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in coefficients less than tolerance (TolX).
+A/sqrt(T0+T) = 1.7943e-06/sqrt(2.08846e-08 + T), gof.rsquare=0.998395
+fileName =
+Data Gaussian 50 GM 1 ns - 100 us
+
+##################################################################
+	TPA	50	[GM]	5e-57	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0119106	0.98582		1 ns
+	1e-08	0.0105704	0.988664		10 ns
+	1e-07	0.00498918	0.99837		0.1 us
+	1e-06	0.00170131	0.999975		1 us
+	1e-05	0.000543294	0.999954		10 us
+	0.0001	0.000171988	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	1.7943e-06	2.08846e-08	0.998395	1.60975e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 0.922841 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 1.78173 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 3.43998 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 6.64155 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 12.8228 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 24.757 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 47.7983 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 92.2841 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(8.4e-03/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 0.774278 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 1.4949 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 2.88619 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 5.57237 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 10.7586 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 20.7715 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 40.1035 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 77.4278 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(7.5e-03/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 0.389064 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 0.751164 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 1.45027 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 2.80003 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 5.40602 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 10.4374 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 20.1514 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 38.9064 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.5e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.133644 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.258026 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 0.498169 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 0.961815 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 1.85697 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 3.58525 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 6.92204 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 13.3644 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(1.2e-03/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 42.6473 uW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 82.339 uW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.158972 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.306926 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 0.592582 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 1.1441 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 2.2089 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 4.26473 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.8e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 13.4986 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 26.0618 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 50.3174 uW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 97.1477 uW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.187563 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.362127 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 0.699158 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 1.34986 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(1.2e-04/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+A/sqrt(T0+T) = 1.2754e-06/sqrt(2.11475e-08 + T), gof.rsquare=0.998407
+fileName =
+Data Gaussian 100 GM 1 ns - 100 us
+
+##################################################################
+	TPA	100	[GM]	1e-56	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.00842207	0.98582		1 ns
+	1e-08	0.00747443	0.988664		10 ns
+	1e-07	0.00352788	0.99837		0.1 us
+	1e-06	0.00120301	0.999975		1 us
+	1e-05	0.000384167	0.999954		10 us
+	0.0001	0.000121614	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	1.2754e-06	2.11475e-08	0.998407	1.62664e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 0.753497 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 1.45477 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 2.80873 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 5.42281 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 10.4698 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 20.214 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 39.0272 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 75.3497 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(6.9e-03/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 0.632195 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 1.22058 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 2.35657 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 4.54982 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 8.78433 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 16.9599 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 32.7444 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 63.2195 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(6.1e-03/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 0.317669 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 0.613323 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 1.18414 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 2.28622 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 4.414 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 8.52209 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 16.4536 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 31.7669 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.9e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 0.10912 mW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.210677 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 0.406754 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 0.785318 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 1.51621 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 2.92735 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 5.65182 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 10.912 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(9.8e-04/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 34.8214 uW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 67.2295 uW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.1298 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.250604 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 0.483841 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 0.934151 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 1.80356 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 3.48214 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(3.1e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 11.0216 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 21.2793 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 41.084 uW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 79.3207 uW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.153144 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.295675 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 0.57086 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 1.10216 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(9.9e-05/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+A/sqrt(T0+T) = 1.03768e-06/sqrt(2.09682e-08 + T), gof.rsquare=0.9984
+fileName =
+Data Gaussian 150 GM 1 ns - 100 us
+
+##################################################################
+	TPA	150	[GM]	1.5e-56	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.00687659	0.98582		1 ns
+	1e-08	0.00610285	0.988664		10 ns
+	1e-07	0.0028805	0.99837		0.1 us
+	1e-06	0.000982251	0.999975		1 us
+	1e-05	0.000313671	0.999954		10 us
+	0.0001	9.92972e-05	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	1.03768e-06	2.09682e-08	0.9984	1.61518e-68
+##################################################################
+
+1/6: TAU = 1 ns:	
+	[ 1/ 8]	#    3# [-Inf] (P = 0.652547 mW, N1ss = 0.00365)
+	[ 2/ 8]	#    3# [-Inf] (P = 1.25987 mW, N1ss = 0.01349)
+	[ 3/ 8]	#    3# [-Inf] (P = 2.43243 mW, N1ss = 0.04845)
+	[ 4/ 8]	#    3# [-Inf] (P = 4.69629 mW, N1ss = 0.15802)
+	[ 5/ 8]	#    3# [-Inf] (P = 9.06711 mW, N1ss = 0.37849)
+	[ 6/ 8]	#    3# [-Inf] (P = 17.5059 mW, N1ss = 0.49698)
+	[ 7/ 8]	#    2# [ZERO] (P = 33.7985 mW, N1ss = 0.50)
+	[ 8/ 8]	#    2# [ZERO] (P = 65.2547 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(6.0e-03/P)^2), gof.rsquare=0.98582
+2/6: TAU = 10 ns:	
+	[ 1/ 8]	#    6# [-5.0] (P = 0.547497 mW, N1ss = 0.00296)
+	[ 2/ 8]	#    6# [-5.1] (P = 1.05705 mW, N1ss = 0.01263)
+	[ 3/ 8]	#    6# [-5.3] (P = 2.04085 mW, N1ss = 0.04664)
+	[ 4/ 8]	#    6# [-6.1] (P = 3.94026 mW, N1ss = 0.14993)
+	[ 5/ 8]	#    5# [-6.7] (P = 7.60745 mW, N1ss = 0.35273)
+	[ 6/ 8]	#    4# [-9.9] (P = 14.6877 mW, N1ss = 0.49124)
+	[ 7/ 8]	#    3# [-15.1] (P = 28.3575 mW, N1ss = 0.49995)
+	[ 8/ 8]	#    2# [ZERO] (P = 54.7497 mW, N1ss = 0.50)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(5.3e-03/P)^2), gof.rsquare=0.988664
+3/6: TAU = 0.1 us:	
+	[ 1/ 8]	#   42# [-5.1] (P = 0.275109 mW, N1ss = 0.00546)
+	[ 2/ 8]	#   41# [-5.1] (P = 0.531153 mW, N1ss = 0.01982)
+	[ 3/ 8]	#   37# [-5.0] (P = 1.0255 mW, N1ss = 0.06703)
+	[ 4/ 8]	#   28# [-5.0] (P = 1.97992 mW, N1ss = 0.18570)
+	[ 5/ 8]	#   16# [-5.3] (P = 3.82263 mW, N1ss = 0.35374)
+	[ 6/ 8]	#    7# [-5.3] (P = 7.38035 mW, N1ss = 0.46466)
+	[ 7/ 8]	#    4# [-7.3] (P = 14.2492 mW, N1ss = 0.49817)
+	[ 8/ 8]	#    3# [-13.2] (P = 27.5109 mW, N1ss = 0.50000)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.5e-03/P)^2), gof.rsquare=0.99837
+4/6: TAU = 1 us:	
+	[ 1/ 8]	#  398# [-5.0] (P = 94.5004 uW, N1ss = 0.00608)
+	[ 2/ 8]	#  385# [-5.0] (P = 0.182452 mW, N1ss = 0.02195)
+	[ 3/ 8]	#  344# [-5.0] (P = 0.352259 mW, N1ss = 0.07306)
+	[ 4/ 8]	#  247# [-5.0] (P = 0.680106 mW, N1ss = 0.19474)
+	[ 5/ 8]	#  121# [-5.0] (P = 1.31308 mW, N1ss = 0.35206)
+	[ 6/ 8]	#   43# [-5.1] (P = 2.53516 mW, N1ss = 0.44983)
+	[ 7/ 8]	#   14# [-5.1] (P = 4.89462 mW, N1ss = 0.48688)
+	[ 8/ 8]	#    6# [-6.2] (P = 9.45004 mW, N1ss = 0.49827)
+Success. Fitting converged to a solution.
+	0.5/(1+(8.5e-04/P)^2), gof.rsquare=0.999975
+5/6: TAU = 10 us:	
+	[ 1/ 8]	# 3953# [-5.0] (P = 30.1562 uW, N1ss = 0.00616)
+	[ 2/ 8]	# 3824# [-5.0] (P = 58.2225 uW, N1ss = 0.02220)
+	[ 3/ 8]	# 3409# [-5.0] (P = 0.11241 mW, N1ss = 0.07377)
+	[ 4/ 8]	# 2427# [-5.0] (P = 0.21703 mW, N1ss = 0.19573)
+	[ 5/ 8]	# 1171# [-5.0] (P = 0.419019 mW, N1ss = 0.35175)
+	[ 6/ 8]	#  401# [-5.0] (P = 0.808998 mW, N1ss = 0.44747)
+	[ 7/ 8]	#  118# [-5.0] (P = 1.56193 mW, N1ss = 0.48295)
+	[ 8/ 8]	#   34# [-5.1] (P = 3.01562 mW, N1ss = 0.49405)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(2.7e-04/P)^2), gof.rsquare=0.999954
+6/6: TAU = 100 us:	
+	[ 1/ 8]	#39506# [-5.0] (P = 9.54497 uW, N1ss = 0.00616)
+	[ 2/ 8]	#38212# [-5.0] (P = 18.4284 uW, N1ss = 0.02223)
+	[ 3/ 8]	#34056# [-5.0] (P = 35.5798 uW, N1ss = 0.07384)
+	[ 4/ 8]	#24231# [-5.0] (P = 68.6938 uW, N1ss = 0.19583)
+	[ 5/ 8]	#11676# [-5.0] (P = 0.132627 mW, N1ss = 0.35172)
+	[ 6/ 8]	# 3984# [-5.0] (P = 0.256062 mW, N1ss = 0.44723)
+	[ 7/ 8]	# 1155# [-5.0] (P = 0.494379 mW, N1ss = 0.48240)
+	[ 8/ 8]	#  318# [-5.0] (P = 0.954497 mW, N1ss = 0.49286)
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+	0.5/(1+(8.6e-05/P)^2), gof.rsquare=0.99992
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+Success, but fitting stopped because change in residuals less than tolerance (TolFun).
+A/sqrt(T0+T) = 8.98346e-07/sqrt(2.09512e-08 + T), gof.rsquare=0.998399
+fileName =
+Data Gaussian 200 GM 1 ns - 100 us
+
+##################################################################
+	TPA	200	[GM]	2e-56	[m^4.s/photon]
+
+	Tau [s]	Psat [W]	gof
+	1e-09	0.0059553	0.98582		1 ns
+	1e-08	0.00528522	0.988664		10 ns
+	1e-07	0.00249459	0.99837		0.1 us
+	1e-06	0.000850654	0.999975		1 us
+	1e-05	0.000271647	0.999954		10 us
+	0.0001	8.59939e-05	0.99992		100 us
+
+	A [W.sqrt(s)]	Tau_0 [s]	gof	a [J^2.m^4]
+	8.98346e-07	2.09512e-08	0.998399	1.61405e-68
+##################################################################
+
+Elapsed time is 511.816510 seconds.
+diary off
