@@ -1,243 +1,349 @@
-% clc
 clear
+% clc
 % close all
 
-verbose = false;
+% h = pauseButton;
+% pause(0.01); % To create the button
 
-% TPA_GM = [1 10 30 100 200]';
-TPA_GM = logspace(log10(1),log10(200),4)' ;
+verbosity = 1;
 
-for jj = 1:length(TPA_GM)
-    
-
-figure('windowStyle','docked');
-ax1 = subplot(121); hold on; myplot; axis square;
-ax2 = subplot(122); hold on; myplot; axis square;
-drawnow;
-
-numTauPoints = 6;
-numPowerPoints = 8; % must be a mnimum of 5 for 'rat22' curve fitting model
 excitationType = 'Sech2'; 
 % excitationType = 'Gaussian'; 
+% excitationType = 'Rect'; 
 % excitationType = 'CW'; 
 
-%% Fluorophore
-tpaGM = TPA_GM(jj);
-tpa = tpaGM * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
-clear tpaGM;
+%% Excitation source
+beamWaist = 0.35e-6;    % Gaussian beam waist [m]
+lambda = 780e-9;        % 800 nm
+f = 80e6;               % 80 MHz
+fwhm = 100e-15;         % 100 fs
 
-if strcmp(excitationType, 'CW')
-    TAU = 1e-6 * [      .01, .1, 1, 4, 10, 60, 100]' ; % CW
-else
-    TAU = 1e-6 * [.001, .01, .1, 1, 4, 10, 60, 100]' ; 
+switch excitationType
+    case 'CW'
+        fwhm = 1/f; % s
+        fact = 1;
+    case 'Gaussian'
+        %fact = sqrt(pi); % * (2*sqrt(log(2)));
+        fact = 2*sqrt(log(2));
+    case 'Sech2'
+        %fact = 2; % * (2*acosh(sqrt(2)));
+        fact = 2*acosh(sqrt(2));
+    case 'Rect'
+        fact = 1;
 end
 
+% TPA_GM = 100;
+TPA_GM = round(logspace(log10(1),log10(200),4))' ;
 
-TAU = sort(unique(TAU));
-% TAU = sort(TAU,'descend');
+for idx_TPA = 1:length(TPA_GM)
+    
+    if verbosity >= 0
+        fprintf('====================== %d/%d: TPA = %g GM ======================\t\n', idx_TPA, length(TPA_GM), TPA_GM(idx_TPA) );
+    end
+    figure('windowStyle','docked');
+    ax1 = subplot(121); hold on; myplot; axis square;
+    ax2 = subplot(122); hold on; myplot; axis square;
+    drawnow;
 
 
-for kkk = 1:length(TAU)
-    gamma = 1./TAU(kkk);
-    fprintf('%d/%d: TPA = %g GM:\t%d/%d: TAU = %s:\t', jj, length(TPA_GM), TPA_GM(jj),  kkk, length(TAU), tauStr(TAU(kkk)));
+    %% Fluorophore
+    tpaGM = TPA_GM(idx_TPA);
+    tpa = tpaGM * 1e-58;  % GM = 1e-58 m^4 / (photon/s)
+    clear tpaGM;
 
     if strcmp(excitationType, 'CW')
-        P = 3.5336e-32 / sqrt(tpa) / sqrt(1/gamma) * logspace(-1,1,numPowerPoints)'; % CW
+        TAU = 1e-6 * [.001, .01, .1, 1, 10, 100]' ; 
+%         TAU = 1e-6 * [.001, .01, .1, 1, 10]' ; 
     else
-        P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1,1,numPowerPoints)';
+        % TAU = 1e-6 * [.001, .01, .1, 1, 10, 100]' ; 
+        TAU = 1e-6 * [           .1, 1, 10, 100]' ;
+%         TAU = 1e-6 * [           .1, 1, 10]' ;
     end
     
-    % P = sort(P,'descend');
+%     TAU = 1e-6 * [.1, 1, 10]';
+
+    TAU = sort(unique(TAU));
+%     TAU = sort(TAU,'descend');
 
 
-    %% Pre-allocate variables
-    N1_ss = zeros(size(P));
 
-    %% Create figure window for time traces
-    if verbose
-        figure('windowStyle','docked');
-        myplot;
+    for idx_TAU = 1:length(TAU)
+        gamma = 1./TAU(idx_TAU);
+        if verbosity >= 1
+            fprintf('%d/%d: TPA = %g GM:\t%d/%d: TAU = %s:\n', idx_TPA, length(TPA_GM), TPA_GM(idx_TPA),  idx_TAU, length(TAU), tauStr(TAU(idx_TAU)));
+        end
+
+        for attempt = 1:2
+            if attempt == 1
+                numPowerPoints = 4;
+                pf = 1;
+            elseif attempt == 2
+                numPowerPoints = 40;
+                pf = 1;
+            end
+
+            if strcmp(excitationType, 'CW')
+                P = 3.5336e-32 / sqrt(tpa) / sqrt(1/gamma) * logspace(-1, 1, numPowerPoints)'; % CW
+            else
+                P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1, 1, numPowerPoints)';
+            end
+
+            % P = sort(P,'descend');
+
+
+            %% Pre-allocate variables
+            N1_ss = zeros(size(P));
+
+            %% Create figure window for time traces
+            if verbosity >= 5
+                if attempt == 1
+                    figure('windowStyle','docked');
+                elseif attempt == 2
+                    clf;
+                end
+                hold on;
+                myplot;
+            end
+
+            %% Sweep power values
+            for idx_P = 1:length(P)
+                if verbosity >= 2
+                    fprintf('\t[%d/%d]\t',   idx_P,length(P));
+                end
+                [N1_ss(idx_P), lastSlope] = cianci_pulseTrain(P(idx_P), lambda, f, fwhm, gamma, tpa, beamWaist, excitationType, verbosity);
+                if verbosity >= 2; fprintf('\n'); end;
+                if lastSlope == 0 && attempt == 1
+                    break;
+                end
+            end
+
+            if lastSlope == 0 && attempt == 1
+                continue;
+            end
+            break
+        end % for attempt
+
+
+        %% Curve-fitting to find saturation threshold (Psat)
+        [xData, yData] = prepareCurveData(P, N1_ss);
+        if attempt == 1
+            if verbosity >= 1; fprintf('\t'); end;
+            ft = fittype( '0.5/(1+(x0/x)^2)', 'independent', 'x', 'dependent', 'y' );
+            opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+            opts.TolFun = 1e-10;
+            opts.TolX = 1e-10;
+            if verbosity >=2
+                opts.Display = 'final';
+            end
+            opts.Lower = 0;
+            opts.StartPoint = median(xData);
+            opts.Upper = inf;
+            [fr, gof] = fit( xData, yData, ft, opts );
+            Ps_fit = fr.x0;
+
+            Ps = Ps_fit;
+            Psat_gof(idx_TAU,1) = gof.rsquare;
+
+        elseif attempt == 2
+            % interpolation only
+            g1 = find(unique(yData));
+            P_ = xData(g1);
+            N_ = N1_ss(g1);
+            Ps_interp1 = interp1(N_,P_,.25);
+            Ps = Ps_interp1;
+            Psat_gof(idx_TAU,1) = nan;
+        end
+        Psat(idx_TAU,1) = Ps;
+
+
+        %% plotting N1-P saturation curve
+        axes(ax2); hold on;
+        subplot(122)
+        myplot
+        set(gca,'xscale','log');
+        set(gca,'yscale','log');
+        grid on; 
         hold on;
+        xx = logspace(log10(min(P)), log10(max(P)),100);
+        if attempt == 1
+            yy = feval(fr,xx);
+        elseif attempt == 2
+            yy = interp1(xData,yData,xx);
+        end
+        ph1 = plot(xx,yy,'-');
+        ph2 = loglog(xData, yData, 'o');
+        col = get(ph1,'color');            
+        set(ph2, 'markerfacecolor', col);
+        set([ph1,ph2],'color',col);
+        plot(Ps, .25,'sk', 'markerfacecolor', 'w');
+        
+        % model overlay
+        xPhi = power2FluxDensity(xx, lambda, beamWaist);
+        xPhiSat = 1./sqrt(2*tpa/gamma) .* sqrt(f*fwhm*fact);
+        yN1 = (1/2) ./ (1 + (xPhiSat./xPhi).^2);
+        plot(xx, yN1, '--g');
+        [yy, yN1] = prepareCurveData(yy, yN1);
+        rmse = rms(1 - yy(:) ./ yN1(:));
+        hold off;
+
+        if verbosity >= 1
+            fprintf('\t0.5/(1+(%g/P)^2), gof.rsquare=%g\n', Ps, Psat_gof(idx_TAU,1));
+            fprintf('\tRMSE = %.2f%%\n', 100*rmse);
+        end
+
+
+    % set(gca,'xlim',[1e-6 1e-0]);
+    % if strcmp(excitationType, 'CW')
+    %     set(gca,'xlim',[1e-3 1e3]);
+    %     set(gca,'xtick',[1e-3, 1e0, 1e3]);
+    % else
+    %     set(gca,'ylim',[1e-3 1e-0]);
+    % end
+    % hold on
+    % plot(get(gca,'xlim'), .25*ones(size(xlim)), '--k');
+    % plot(get(gca,'xlim'), .50*ones(size(xlim)), '--k');
+    % hold off
+
+        xlabel('Average power, <P> (W)')
+        ylabel('Excited state population, N_1');   % @ (\rho=0,z=0)')
+        str = sprintf('%s, %G GM, [%s, %s]', excitationType, tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)));
+        title(str);
+
+        axis square
+        myplot
+        drawnow
+
+
+        PPP{idx_TAU,idx_TPA} = P;
+        NN1{idx_TAU,idx_TPA} = N1_ss;
+        TTAU(idx_TAU,idx_TPA) = TAU(idx_TAU);
+        TTPA(idx_TAU,idx_TPA) = tpa;
+    end % for idx_TAU
+
+
+    %% Seed the main curve fitting method with the power model % y = a*x^b
+    [xData, yData] = prepareCurveData(TAU, Psat);
+    ft = fittype( 'power1' );
+    opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+    opts.TolFun = 1e-10;
+    opts.TolX = 1e-10;
+    opts.Display = 'final';
+    opts.Lower = [0 -.5];
+    opts.StartPoint = [1 -.5];
+    opts.Upper = [inf -.5];
+    [fr, gf] = fit( xData, yData, ft, opts );
+    A_start = fr.a;
+
+    A = A_start;
+    tau0 = 0;
+    a = A^2*tpa;
+
+    if 0
+        %% Curve fitting for lowpass filter (Bode plot):             B
+           %                                             y =  ----------------
+           %                                                   sqrt(1 + x/x0)
+        [xData, yData] = prepareCurveData(TAU, Psat);
+        ft = fittype( 'A/sqrt(x0 + x)', 'independent', 'x', 'dependent', 'y' );
+        opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
+        opts.TolFun = 1e-10;
+        opts.TolX = 1e-10;
+        opts.Display = 'final';
+        opts.Lower = [0 0];
+        opts.StartPoint = [A_start median(TAU)];
+        opts.Upper = [inf inf];
+        [fr,gf,fitAlgo] = fit( xData, yData, ft, opts);
+
+        A = fr.A;
+        tau0 = fr.x0;
+        a = A^2*tpa;
     end
-    
-    %% Sweep power values
-    for iP = 1:length(P)
-        fprintf('\n\t[%d/%d]\t',   iP,length(P));
-        N1_ss(iP) = cianci_pulseTrain(P(iP), gamma, tpa, excitationType, verbose);
-    end
-    fprintf('\n');
 
 
+    fprintf('A/sqrt(T0+T) = %g/sqrt(%g + T), gof.rsquare=%g\n', ...
+                A, tau0, gf.rsquare);
 
+    %% Book-keeping
+    PSAT_TPA(:,idx_TPA) = Psat;
+    AA_TPA(1,idx_TPA) = A;
+            
 
-    %% Find saturation threshold
-    [xData, yData] = prepareCurveData(P, N1_ss);
+    %% new figure    
+    axes(ax1); hold off; cla;
+    % clf
 
-    %% curve fitting with second-degree:             1/2
-       %                                   y =  --------------
-       %                                         1 + (x0/x)^2
-    fop = fitoptions('rat22', 'Lower',[.5 0 0, 0 0], ...
-                              'Upper',[.5 0 0, 0 inf], ...
-                              'StartPoint', [0 0 0, 0 median(xData)^2]);
-    fop.TolFun = 1e-10;
-    fop.TolX = 1e-10;
-    fop.Display = 'final';
-    [cfun,gof,fitAlgo] = fit(xData,yData, 'rat22',fop);
-    Ps = sqrt(cfun.q2);
-    fprintf('\t0.5/(1+(%g/P)^2), gof.rsquare=%g\n', Ps, gof.rsquare);
-
-    %% make array
-    Psat(kkk,1) = Ps;
-    Psat_gof(kkk,1) = gof.rsquare;
-    
-
-    %% plotting N1-P saturation curve
-    axes(ax2); hold on;
-    subplot(122)
-    myplot
-    set(gca,'xscale','log');
-    set(gca,'yscale','log');
-    grid on; 
+    %% Plotting tau-Psat
+    cla; hold off;
+    xx2 = logspace(log10(min(TAU)), log10(max(TAU)), 100)';
+    loglog(xx2, feval(fr,xx2),'r-');
     hold on;
-    xx = logspace(log10(min(P)), log10(max(P)),100);
-    yy = feval(cfun,xx);
-    ph1 = plot(xx,yy,'-');
-    ph2 = loglog(xData, yData, 'o');
-    col = get(ph1,'color');            
-    set(ph2, 'markerfacecolor', col);
-    set([ph1,ph2],'color',col);
-    plot(Ps, .25,'sk', 'markerfacecolor', 'k');
+    ph = loglog(TAU,Psat,'ob');
+    yP = fluxDensity2Power( sqrt( 1 ./ (2 * tpa .* xx2) ) .* sqrt(f*fwhm*fact), lambda, beamWaist);
+    plot(xx2, yP, '--g');
     hold off;
-    %     str = sprintf('$\\frac{1/2}{1+\\left({%G}/{P}\\right)^2}$ fitting', Psat)
-    %     lh = legend(str);
-    %     text(Ps*1.2,.25/1.2, sprintf('%.2E W',Ps));
-    %     set(lh,'location','southeast','Interpreter','latex','fontsize',16);
-    set(gca,'xlim',[1e-6 1e-0]);
-    if strcmp(excitationType, 'CW')
-        set(gca,'xlim',[1e-3 1e3]);
-        set(gca,'xtick',[1e-3, 1e0, 1e3]);
+    set(ph,'MarkerFaceColor','b');
+    xlabel('Probe Lifetime, \tau (s)')
+    ylabel('Saturation onset, P_{sat} (W)')
+    if tau0 == 0
+        str = sprintf('$\\frac{\\sqrt{%G}}{\\sqrt{%G}\\sqrt{\\tau}}$', a, tpa);
     else
-        set(gca,'ylim',[1e-3 1e-0]);
+        str = sprintf('$\\sqrt{\\frac{%G/%G}{%G+\\tau}}$', a, tpa, tau0);
     end
-    hold on
-    plot(get(gca,'xlim'), .25*ones(size(xlim)), '--k');
-    plot(get(gca,'xlim'), .50*ones(size(xlim)), '--k');
-    hold off
-    xlabel('Average power, <P> (W)')
-    ylabel('Excited state population, N_1');   % @ (\rho=0,z=0)')
-    title(sprintf('%s, \\sigma_{TPA} = %G GM', excitationType, tpa/1e-58));
+    lh = legend({str});
+    set(lh,'Interpreter','latex','location','southwest','fontsize',18,'box','off');
+    str = sprintf('%s, %G GM', excitationType, tpa/1e-58);
+    title(str)
     axis square
+
+    % set(gca,'xlim',[1e-9 1e-4]);
+    % if strcmp(excitationType, 'CW')
+    %     set(gca,'ylim',[1e-2 1e2]);
+    % else
+    %     set(gca,'ylim',[1e-4 1e-1]);
+
+    % end
     myplot
-    drawnow
 
-    
-    PPP(:,kkk,jj) = P;
-    NN1(:,kkk,jj) = N1_ss;
-    TTAU(kkk,jj) = TAU(kkk);
-    
-    
-end % for kkk
+if 0
+    %% printing data for saving
+    folderName = sprintf('FILES_%s', excitationType);
+    fileName = sprintf('Data %s %g GM %s - %s', excitationType, tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
+    if exist(folderName, 'file') ~= 7
+        mkdir(folderName);
+    end
+    fh = fopen(fullfile(folderName, [fileName,'.txt']), 'w');
 
-% return
+    CW_fprintf(fh, '\n');
+    CW_fprintf(fh, '##################################################################\n')
+    CW_fprintf(fh, '\tTPA\t%g\t[GM]\t%g\t[m^4.s/photon]\n', tpa/1e-58, tpa);
+    CW_fprintf(fh, '\n')
+    CW_fprintf(fh, '\tTau [s]\tPsat [W]\tgof\n');
+    for kt = 1:length(TAU)
+        CW_fprintf(fh, '\t%g\t%g\t%g\t\t%s\n', TAU(kt), Psat(kt), Psat_gof(kt), tauStr(TAU(kt)));  
+    end
+    CW_fprintf(fh, '\n');
+    CW_fprintf(fh, '\tA [W.sqrt(s)]\tTau_0 [s]\tgof\ta [J^2.m^4]\n');
+    CW_fprintf(fh, '\t%g\t%g\t%g\t%g\n', A, tau0, gf.rsquare, a);
+    CW_fprintf(fh, '##################################################################\n')
+    CW_fprintf(fh, '\n');
 
-%% Seed the main curve fitting method with the power model % y = a*x^b
-[xData, yData] = prepareCurveData(TAU, Psat);
-ft = fittype( 'power1' );
-opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
-opts.TolFun = 1e-10;
-opts.TolX = 1e-10;
-opts.Display = 'final';
-opts.StartPoint = [1e-6 -.5];
-[fr, gf] = fit( xData, yData, ft, opts );
-A_start = fr.a;
+    fclose(fh);
 
-%% Curve fitting for lowpass filter (Bode plot):             B
-   %                                             y =  ----------------
-   %                                                   sqrt(1 + x/x0)
-[xData, yData] = prepareCurveData(TAU, Psat);
-ft = fittype( 'A/sqrt(x0 + x)', 'independent', 'x', 'dependent', 'y' );
-opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
-opts.TolFun = 1e-10;
-opts.TolX = 1e-10;
-opts.Display = 'final';
-opts.Lower = [0 0];
-opts.StartPoint = [A_start median(TAU)];
-opts.Upper = [inf inf];
-[fr,gf,fitAlgo] = fit( xData, yData, ft, opts);
-A = fr.A;
-tau0 = fr.x0;
-a = A^2*tpa;
+    print(gcf, fullfile(folderName, [fileName,'.pdf']), '-dpdf');
 
-% K = 2.2456e36; % [photon/J/m^2] % K = Sr/(2*h*c/lambda*f*(fwhm/1.763));
-
-
-% fprintf('B/sqrt(1+T/T0) = %.2e/sqrt(1+T/%.2e) = %.2e/sqrt(%.2e + T), gof.rsquare=%g\n', ...
-%             B, tau0, A, tau0, gf.rsquare);
-fprintf('A/sqrt(T0+T) = %g/sqrt(%g + T), gof.rsquare=%g\n', ...
-            A, tau0, gf.rsquare);
-
-
-%% new figure    
-axes(ax1); hold off; cla;
-% clf
-
-%% Plotting tau-Psat
-cla; hold off;
-xx = logspace(log10(min(TAU)), log10(max(TAU)), 100)';
-loglog(xx, feval(fr,xx),'r-');
-hold on;
-% loglog(xx, A./sqrt(xx),'--k');
-% loglog(xx, B*ones(size(xx)),'--k');
-ph = loglog(TAU,Psat,'ob');
-% ph2 = loglog(TAU,PPsat_fit_m,'sr');
-hold off;
-set(ph,'MarkerFaceColor','b');
-% set(ph2,'MarkerFaceColor','w');
-xlabel('Probe Lifetime, \tau (s)')
-ylabel('Saturation onset, P_{sat} (W)')
-% str = sprintf('$\\frac{%G}{\\sqrt{%G+\\tau}}$', A, tau0 );
-str = sprintf('$\\sqrt{\\frac{%G/%G}{%G+\\tau}}$', a, tpa, tau0 );
-lh = legend({str});
-set(lh,'Interpreter','latex','location','southwest','fontsize',18,'box','off');
-str = sprintf('%G GM, \\tau = [%s, %s]', tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)));
-title(str)
-axis square
-set(gca,'xlim',[1e-9 1e-4]);
-if strcmp(excitationType, 'CW')
-    set(gca,'ylim',[1e-2 1e2]);
-else
-    set(gca,'ylim',[1e-4 1e-1]);
+    save(fullfile(folderName, [fileName,'.mat']));
 end
-myplot
 
-% close(1:10);
+%     return
 
-%% printing data for saving
-folderName = sprintf('FILES_%s', excitationType);
-fileName = sprintf('Data %s %g GM %s - %s', excitationType, tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
-fh = fopen(fullfile(folderName, [fileName,'.txt']), 'w');
+end %% for idx_TPA
 
-CW_fprintf(fh, '\n');
-CW_fprintf(fh, '##################################################################\n')
-CW_fprintf(fh, '\tTPA\t%g\t[GM]\t%g\t[m^4.s/photon]\n', tpa/1e-58, tpa);
-CW_fprintf(fh, '\n')
-CW_fprintf(fh, '\tTau [s]\tPsat [W]\tgof\n');
-for kt = 1:length(TAU)
-    CW_fprintf(fh, '\t%g\t%g\t%g\t\t%s\n', TAU(kt), Psat(kt), Psat_gof(kt), tauStr(TAU(kt)));  
-end
-CW_fprintf(fh, '\n');
-CW_fprintf(fh, '\tA [W.sqrt(s)]\tTau_0 [s]\tgof\ta [J^2.m^4]\n');
-CW_fprintf(fh, '\t%g\t%g\t%g\t%g\n', A, tau0, gf.rsquare, a);
-CW_fprintf(fh, '##################################################################\n')
-CW_fprintf(fh, '\n');
+%% Conversion to Flux
+PHISAT_TPA = power2FluxDensity(PSAT_TPA, lambda, beamWaist);
+% xPhiSat = 1./sqrt(2*tpa/gamma) .* sqrt(f*fwhm*fact)
+PPP2 = fluxDensity2Power( sqrt( 1 ./ (2 * TTPA .* TTAU) ) .* sqrt(f*fwhm*fact), lambda, beamWaist);
+PPP2 ./ PSAT_TPA ;
 
-fclose(fh);
-
-print(gcf, fullfile(folderName, fileName), '-dpdf');
-
-save(fullfile(folderName, fileName));
+% [f A]
 
 
-
-end %% jj
 
