@@ -1,8 +1,8 @@
 function [N1_ss,lastSlope] = cianci_pulseTrain(P, lambda, f, fwhm, gamma, tpa, beamWaist, excitationType, verbosity)
 
 % charCount = 0;
-progressChar = '|/-\' ;
-progressCharLength = length(progressChar);
+% progressChar = '|/-\' ;
+% progressCharLength = length(progressChar);
 
 % %% Excitation source
 % lambda = 780e-9; % 800 nm
@@ -31,10 +31,10 @@ while (true)
         x = [0 0]; y = x; % prepare two element buffer for derivative
     end
     
-    if mod(iC,500) == 0
-        fprintf('\b');
-        fprintf( '%c', progressChar(1 + mod(iC/500,progressCharLength)) );
-    end
+%     if mod(iC,500) == 0
+%         fprintf('\b');
+%         fprintf( '%c', progressChar(1 + mod(iC/500,progressCharLength)) );
+%     end
 
     if verbosity
         [t_ss_exc(iC), N1_ss_exc(iC), t(:,iC), N1(:,iC), pulse(:,iC)] = cianci_model(P, lambda, f, fwhm, Sr(1,1), tpa, gamma, N1_initial, excitationType, verbosity);
@@ -74,9 +74,9 @@ while (true)
     end
 end % while
 
-if verbosity == 1 && iC >= 500
-    fprintf('\n');
-end
+% if verbosity == 1 && iC >= 500
+%     fprintf('\n');
+% end
 
 if N1_ss < 0 || N1_ss > 0.5 
     if verbosity >= 3

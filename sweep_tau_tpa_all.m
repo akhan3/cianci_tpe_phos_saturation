@@ -2,6 +2,11 @@ clear
 % clc
 % close all
 
+figure('windowStyle','docked');
+ax1 = subplot(121); hold on; myplot; axis square;
+ax2 = subplot(122); hold on; myplot; axis square;
+drawnow;
+
 % h = pauseButton;
 % pause(0.01); % To create the button
 
@@ -32,18 +37,19 @@ switch excitationType
         fact = 1;
 end
 
-% TPA_GM = 100;
-TPA_GM = round(logspace(log10(1),log10(200),4))' ;
+% TPA_GM = 200;
+TPA_GM = round(logspace(log10(1),log10(200), 4))' ;
 
 for idx_TPA = 1:length(TPA_GM)
     
     if verbosity >= 0
         fprintf('====================== %d/%d: TPA = %g GM ======================\t\n', idx_TPA, length(TPA_GM), TPA_GM(idx_TPA) );
     end
-    figure('windowStyle','docked');
-    ax1 = subplot(121); hold on; myplot; axis square;
-    ax2 = subplot(122); hold on; myplot; axis square;
-    drawnow;
+    
+%     figure('windowStyle','docked');
+%     ax1 = subplot(121); hold on; myplot; axis square;
+%     ax2 = subplot(122); hold on; myplot; axis square;
+%     drawnow;
 
 
     %% Fluorophore
@@ -57,7 +63,8 @@ for idx_TPA = 1:length(TPA_GM)
     else
         % TAU = 1e-6 * [.001, .01, .1, 1, 10, 100]' ; 
         TAU = 1e-6 * [           .1, 1, 10, 100]' ;
-%         TAU = 1e-6 * [           .1, 1, 10]' ;
+        TAU = 1e-6 * [           .1, 1, 10]' ;
+        TAU = 1e-6 * logspace(-1,1,9)' ;
     end
     
 %     TAU = 1e-6 * [.1, 1, 10]';
@@ -68,26 +75,27 @@ for idx_TPA = 1:length(TPA_GM)
 
 
     for idx_TAU = 1:length(TAU)
-        gamma = 1./TAU(idx_TAU);
+        tau = TAU(idx_TAU);
         if verbosity >= 1
             fprintf('%d/%d: TPA = %g GM:\t%d/%d: TAU = %s:\n', idx_TPA, length(TPA_GM), TPA_GM(idx_TPA),  idx_TAU, length(TAU), tauStr(TAU(idx_TAU)));
         end
 
         for attempt = 1:2
             if attempt == 1
-                numPowerPoints = 4;
+                numPowerPoints = 6;
                 pf = 1;
             elseif attempt == 2
-                numPowerPoints = 40;
+                numPowerPoints = 18;
                 pf = 1;
             end
 
             if strcmp(excitationType, 'CW')
-                P = 3.5336e-32 / sqrt(tpa) / sqrt(1/gamma) * logspace(-1, 1, numPowerPoints)'; % CW
+                P = 3.5336e-32 / sqrt(tpa) / sqrt(tau) * logspace(-1, 1, numPowerPoints)'; % CW
             else
-                P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + 1/gamma) * logspace(-1, 1, numPowerPoints)';
+                P = (1.35e-34/sqrt(tpa)) / sqrt(2.04e-8 + tau) * logspace(-1, 1, numPowerPoints)';
             end
-
+            
+            % P = logspace(-4,-1,numPowerPoints)' ;
             % P = sort(P,'descend');
 
 
@@ -110,7 +118,7 @@ for idx_TPA = 1:length(TPA_GM)
                 if verbosity >= 2
                     fprintf('\t[%d/%d]\t',   idx_P,length(P));
                 end
-                [N1_ss(idx_P), lastSlope] = cianci_pulseTrain(P(idx_P), lambda, f, fwhm, gamma, tpa, beamWaist, excitationType, verbosity);
+                [N1_ss(idx_P), lastSlope] = cianci_pulseTrain(P(idx_P), lambda, f, fwhm, 1/tau, tpa, beamWaist, excitationType, verbosity);
                 if verbosity >= 2; fprintf('\n'); end;
                 if lastSlope == 0 && attempt == 1
                     break;
@@ -178,8 +186,9 @@ for idx_TPA = 1:length(TPA_GM)
         plot(Ps, .25,'sk', 'markerfacecolor', 'w');
         
         % model overlay
+        TAU0_MODEL = 2.2586e-8;
         xPhi = power2FluxDensity(xx, lambda, beamWaist);
-        xPhiSat = 1./sqrt(2*tpa/gamma) .* sqrt(f*fwhm*fact);
+        xPhiSat = 1./sqrt(2*tpa) .* 1./sqrt(TAU0_MODEL + tau) .* sqrt(f*fwhm*fact);
         yN1 = (1/2) ./ (1 + (xPhiSat./xPhi).^2);
         plot(xx, yN1, '--g');
         [yy, yN1] = prepareCurveData(yy, yN1);
@@ -238,12 +247,12 @@ for idx_TPA = 1:length(TPA_GM)
     tau0 = 0;
     a = A^2*tpa;
 
-    if 0
-        %% Curve fitting for lowpass filter (Bode plot):             B
+    if 1
+        %% Curve fitting for lowpass filter (Bode plot):             A
            %                                             y =  ----------------
-           %                                                   sqrt(1 + x/x0)
+           %                                                   sqrt(x + x0)
         [xData, yData] = prepareCurveData(TAU, Psat);
-        ft = fittype( 'A/sqrt(x0 + x)', 'independent', 'x', 'dependent', 'y' );
+        ft = fittype( 'A/sqrt(x+x0)', 'independent', 'x', 'dependent', 'y' );
         opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
         opts.TolFun = 1e-10;
         opts.TolX = 1e-10;
@@ -255,7 +264,6 @@ for idx_TPA = 1:length(TPA_GM)
 
         A = fr.A;
         tau0 = fr.x0;
-        a = A^2*tpa;
     end
 
 
@@ -265,19 +273,20 @@ for idx_TPA = 1:length(TPA_GM)
     %% Book-keeping
     PSAT_TPA(:,idx_TPA) = Psat;
     AA_TPA(1,idx_TPA) = A;
+    TTAU0_TPA(1,idx_TPA) = tau0;
             
 
     %% new figure    
-    axes(ax1); hold off; cla;
+    axes(ax1); hold on; %hold off; cla;
     % clf
 
     %% Plotting tau-Psat
-    cla; hold off;
+    % cla; hold off;
     xx2 = logspace(log10(min(TAU)), log10(max(TAU)), 100)';
     loglog(xx2, feval(fr,xx2),'r-');
     hold on;
     ph = loglog(TAU,Psat,'ob');
-    yP = fluxDensity2Power( sqrt( 1 ./ (2 * tpa .* xx2) ) .* sqrt(f*fwhm*fact), lambda, beamWaist);
+    yP = fluxDensity2Power( sqrt( 1 ./ (2 * tpa .* (TAU0_MODEL + xx2)) ) .* sqrt(f*fwhm*fact), lambda, beamWaist);
     plot(xx2, yP, '--g');
     hold off;
     set(ph,'MarkerFaceColor','b');
@@ -286,12 +295,14 @@ for idx_TPA = 1:length(TPA_GM)
     if tau0 == 0
         str = sprintf('$\\frac{\\sqrt{%G}}{\\sqrt{%G}\\sqrt{\\tau}}$', a, tpa);
     else
-        str = sprintf('$\\sqrt{\\frac{%G/%G}{%G+\\tau}}$', a, tpa, tau0);
+        str = sprintf('$\\frac{%G/\\sqrt{%G}}{\\sqrt{\\tau+%G}}$', A*sqrt(tpa), tpa, tau0);
     end
     lh = legend({str});
     set(lh,'Interpreter','latex','location','southwest','fontsize',18,'box','off');
     str = sprintf('%s, %G GM', excitationType, tpa/1e-58);
     title(str)
+    set(gca,'xscale','log');
+    set(gca,'yscale','log');
     axis square
 
     % set(gca,'xlim',[1e-9 1e-4]);
@@ -303,35 +314,35 @@ for idx_TPA = 1:length(TPA_GM)
     % end
     myplot
 
-if 0
-    %% printing data for saving
-    folderName = sprintf('FILES_%s', excitationType);
-    fileName = sprintf('Data %s %g GM %s - %s', excitationType, tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
-    if exist(folderName, 'file') ~= 7
-        mkdir(folderName);
+    if 0
+        %% printing data for saving
+        folderName = sprintf('FILES_%s', excitationType);
+        fileName = sprintf('Data %s %g GM %s - %s', excitationType, tpa/1e-58, tauStr(min(TAU)), tauStr(max(TAU)))
+        if exist(folderName, 'file') ~= 7
+            mkdir(folderName);
+        end
+        fh = fopen(fullfile(folderName, [fileName,'.txt']), 'w');
+
+        CW_fprintf(fh, '\n');
+        CW_fprintf(fh, '##################################################################\n')
+        CW_fprintf(fh, '\tTPA\t%g\t[GM]\t%g\t[m^4.s/photon]\n', tpa/1e-58, tpa);
+        CW_fprintf(fh, '\n')
+        CW_fprintf(fh, '\tTau [s]\tPsat [W]\tgof\n');
+        for kt = 1:length(TAU)
+            CW_fprintf(fh, '\t%g\t%g\t%g\t\t%s\n', TAU(kt), Psat(kt), Psat_gof(kt), tauStr(TAU(kt)));  
+        end
+        CW_fprintf(fh, '\n');
+        CW_fprintf(fh, '\tA [W.sqrt(s)]\tTau_0 [s]\tgof\ta [J^2.m^4]\n');
+        CW_fprintf(fh, '\t%g\t%g\t%g\t%g\n', A, tau0, gf.rsquare, a);
+        CW_fprintf(fh, '##################################################################\n')
+        CW_fprintf(fh, '\n');
+
+        fclose(fh);
+
+        print(gcf, fullfile(folderName, [fileName,'.pdf']), '-dpdf');
+
+        save(fullfile(folderName, [fileName,'.mat']));
     end
-    fh = fopen(fullfile(folderName, [fileName,'.txt']), 'w');
-
-    CW_fprintf(fh, '\n');
-    CW_fprintf(fh, '##################################################################\n')
-    CW_fprintf(fh, '\tTPA\t%g\t[GM]\t%g\t[m^4.s/photon]\n', tpa/1e-58, tpa);
-    CW_fprintf(fh, '\n')
-    CW_fprintf(fh, '\tTau [s]\tPsat [W]\tgof\n');
-    for kt = 1:length(TAU)
-        CW_fprintf(fh, '\t%g\t%g\t%g\t\t%s\n', TAU(kt), Psat(kt), Psat_gof(kt), tauStr(TAU(kt)));  
-    end
-    CW_fprintf(fh, '\n');
-    CW_fprintf(fh, '\tA [W.sqrt(s)]\tTau_0 [s]\tgof\ta [J^2.m^4]\n');
-    CW_fprintf(fh, '\t%g\t%g\t%g\t%g\n', A, tau0, gf.rsquare, a);
-    CW_fprintf(fh, '##################################################################\n')
-    CW_fprintf(fh, '\n');
-
-    fclose(fh);
-
-    print(gcf, fullfile(folderName, [fileName,'.pdf']), '-dpdf');
-
-    save(fullfile(folderName, [fileName,'.mat']));
-end
 
 %     return
 
