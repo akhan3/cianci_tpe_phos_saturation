@@ -100,6 +100,7 @@ if verbosity >= 5
     xlabel('Time (s)');
     str = sprintf('%G GM, %s, %s', tpa/1e-58, tauStr(1/gamma), PStr(P)); 
     title(str);
+    set(gca,'yscale','log');
     myplot
     drawnow;
 end
